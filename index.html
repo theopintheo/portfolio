@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>THEOPIN | Theo Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-L8I9j6fyKkdByI7iJ5C0f7oQ4N2y2gPpk+yYzxmCJQx91ihoUV+Yqc/cq3W8Vf4Cfa1ku0aO59dZ9K5sI1bE6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     body {
       margin: 0;
@@ -118,6 +119,45 @@
         0 0 40px #8a8dff;
     }
 
+    .project-list {
+      text-align: left;
+      max-width: 820px;
+      margin: 0 auto;
+      background: rgba(26, 28, 53, 0.6);
+      border: 1px solid rgba(112, 122, 255, 0.35);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 0 20px rgba(110, 116, 255, 0.2);
+    }
+
+    .project-list li {
+      margin: 0.45rem 0;
+      font-size: 1rem;
+      line-height: 1.55;
+      transition: transform 0.2s ease;
+    }
+
+    .project-list li:hover {
+      transform: translateX(4px);
+    }
+
+    .project-list a {
+      color: #c8d0ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .project-list a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .project-list p {
+      margin: 0.6rem 0 0 0;
+      font-size: 0.9rem;
+      color: #cfcff7;
+    }
+
     .contact-info {
       text-align: center;
       margin-top: 3rem;
@@ -214,53 +254,74 @@
   <div id="spotlight"></div>
 
   <div class="container">
-    <h1>THEOPIN TECH</h1>
+    <h1>THEOPIN B</h1>
+    <p style="text-align:center; color:#d0d4ff; margin:0.2rem 0 1rem; letter-spacing:0.3px; font-size:1rem;">Full-Stack Developer | Robotics</p>
+    <p style="text-align:center; color:#b0b4e0; margin:0 0 1.5rem;">BCA (ongoing) — Don Bosco Arts & Science College, Chennai</p>
 
     <div class="about">
-      <h2>About Me</h2>
+      <h2>Profile</h2>
       <p>
-        Hey, I’m <strong>Theopin</strong> — a curious builder of smart systems, 3D animations,website design, and gesture-driven tech.  
-        I’m studying at Don Bosco Arts & Science College, but my playground stretches far beyond the classroom.
-        <br /><br />
-        Whether it’s animating an interface or bringing a machine to life with code, I believe in designing experiences that feel futuristic, functional, and full of personality.
+        Computer Science student specializing in Full-Stack Web Development and Robotics Systems. Experienced in building MERN applications and developing robotics prototypes with microcontrollers, computer vision, and automation technologies.
+        Passionate about solving real-world problems through software engineering and intelligent systems.
       </p>
     </div>
 
+    
+
     <div class="skills">
-      <h2>What I Know</h2>
+      <h2>Technical Skills</h2>
       <ul>
+        <li>JavaScript</li>
         <li>Python</li>
-        <li>HTML<li>
-        <li>CSS<li>
-        <li>JAVASCRIPT</li>
-        <li>ReactJS<li>
-        <li>OpenCV</li>
-        <li>MediaPipe</li>
-        <li>OpenGL</li>
-        <li>3D Animation (Three.js, Blender)</li>
-        <li>UI/UX Design</li>
-        <li>Gesture Recognition</li>
-        <li>Mechatronics Fundamentals</li>
-        <li>aruduino & IOT</li>
+        <li>C++</li>
+        <li>HTML & CSS</li>
+        <li>MERN Stack</li>
+        <li>Computer Vision (OpenCV)</li>
+        <li>Microcontrollers (Arduino, ESP32, Raspberry Pi)</li>
+        <li>IoT Systems</li>
+        <li>Robotics Prototyping</li>
       </ul>
+    </div>
+
+   
+
+    <div class="about">
+      <h2>Certifications & Awards</h2>
+      <p>
+        • MERN Stack Full-Stack Web Development Certification (2025)<br>
+        • Young Inspiration Award — Dr. APJ Abdul Kalam International Foundation<br>
+        • 3rd Place — INNOHACK’26 IoT AQI Monitoring
+      </p>
+    </div>
+
+    <div class="about">
+      <h2>GitHub Projects</h2>
+      <div class="project-list">
+        <ul>
+          <li><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a> — Real-time AQI data collection (serial).</li>
+          <li><a href="https://github.com/theopintheo/Arduino-Tutorials" target="_blank">Arduino-Tutorials</a> — Arduino circuits and sample code guides.</li>
+          <li><a href="https://github.com/theopintheo/college-web-TRY" target="_blank">college-web-TRY</a> — College website project.</li>
+          <li><a href="https://github.com/theopintheo/css-topics" target="_blank">css-topics</a> — CSS learning resources.</li>
+          <li><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a> — Wi-Fi camera rover control.</li>
+          <li><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a> — Food delivery web app.</li>
+          <li><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a> — OpenCV-based project.</li>
+          <li><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a> — Autonomous obstacle avoidance robot.</li>
+          <li><a href="https://github.com/theopintheo/portfolio" target="_blank">portfolio</a> — Personal portfolio website.</li>
+          <li><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a> — Full-stack todo app with auth APIs.</li>
+        </ul>
+      </div>
+      <p style="font-size:0.9rem; color:#c2c2e7;">Visit <a href="https://github.com/theopintheo?tab=repositories" target="_blank" style="color:#f4dbff;">all repositories on GitHub</a>.</p>
     </div>
 
     <div class="contact-info">
       <h2>For Building Projects</h2>
-      <p class="contact-heading">Get in touch with me to discuss your project ideas!</p>
+      <p class="contact-heading">Reach out for collaboration, internships, and assignments.</p>
       <div class="contact-buttons">
-        <a class="contact-button" href="tel:+917708180940" target="_blank">
-          <i class="fas fa-phone-alt"></i> <span>Call</span>
-        </a>
-        <a class="contact-button" href="mailto:theopintheo@gmail.com" target="_blank">
-          <i class="fas fa-envelope"></i> <span>Mail</span>
-        </a>
-        <a class="contact-button" href="https://github.com/theopintheo" target="_blank">
-          <i class="fas fa-code"></i> <span>Projects</span>
-        </a>
-        <a class="contact-button" href="https://wa.me/917708180940?text=Hey%20Theopin%2C%20I%20just%20checked%20your%20portfolio!" target="_blank">
-          <i class="fas fa-comments"></i> <span>Chat</span>
-        </a>
+        <a class="contact-button" href="tel:+917708180940" target="_blank"><i class="fas fa-phone-alt"></i> <span>Call</span></a>
+        <a class="contact-button" href="mailto:theopintheo@gmail.com" target="_blank"><i class="fas fa-envelope"></i> <span>Mail</span></a>
+        <a class="contact-button" href="https://github.com/theopintheo" target="_blank"><i class="fas fa-code"></i> <span>Projects</span></a>
+        <a class="contact-button" href="https://wa.me/917708180940?text=Hey%20Theopin%2C%20I%20just%20checked%20your%20portfolio!" target="_blank"><i class="fas fa-comments"></i> <span>Chat</span></a>
+        <a class="contact-button" href="https://drive.google.com/file/d/1rariElUkyGQgwl3qQdcOxXnotyeW8S8-/view?usp=sharing" target="_blank"><i class="fas fa-file-download"></i> <span>Resume</span></a>
       </div>
     </div>
   </div>
@@ -303,12 +364,36 @@
       }
     }
 
+    function createSparkle() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const sparkle = new Particle(x, y);
+      sparkle.size = Math.random() * 2 + 0.8;
+      sparkle.speedX = Math.random() * 1.2 - 0.6;
+      sparkle.speedY = Math.random() * 1.2 - 0.6;
+      sparkle.alpha = 0.9;
+      sparkle.fade = Math.random() * 0.02 + 0.007;
+      sparkle.draw = function () {
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      };
+      sparkle.update = function () {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= this.fade;
+      };
+      particles.push(sparkle);
+    }
+
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (Math.random() < 0.08) createSparkle();
       particles.forEach((particle, index) => {
         particle.update();
         particle.draw();
-        if (particle.size <= 0.2) {
+        if (particle.size <= 0.2 || particle.alpha <= 0) {
           particles.splice(index, 1);
         }
       });
@@ -342,6 +427,12 @@
       )`;
     
     });
+
+    // GSAP animations
+    gsap.from("h1", {duration: 1.2, y: -40, opacity: 0, ease: "power3.out"});
+    gsap.from(".about h2", {duration: 1, y: 20, opacity: 0, stagger: 0.12, delay: 0.2, ease: "power2.out"});
+    gsap.from(".project-list li", {duration: 0.8, x: -15, opacity: 0, stagger: 0.06, delay: 0.7, ease: "power2.out"});
+    gsap.from(".contact-button", {duration: 0.7, y: 10, opacity: 0, stagger: 0.08, delay: 0.5, ease: "back.out(1.2)"});
   </script>
 </body>
 </html>
