@@ -29,16 +29,14 @@
       --shadow: rgba(106, 99, 255, 0.25);
       --muted-2: #c8d0ff;
       --nav-bg: rgba(16, 20, 36, 0.78);
-      --button-bg: rgba(255, 255, 255, 0.04);
+      --button-bg: rgba(255,255,255,0.04);
       --project-text: #dfe7ff;
       --line: rgba(167, 181, 255, 0.18);
     }
 
     * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -72,11 +70,6 @@
     @keyframes orbit {
       0% { transform: rotate(0deg) translateX(14px) rotate(0deg); }
       100% { transform: rotate(360deg) translateX(14px) rotate(-360deg); }
-    }
-
-    @keyframes scan {
-      0% { transform: translateX(-120%); }
-      100% { transform: translateX(120%); }
     }
 
     body::before {
@@ -204,9 +197,7 @@
       z-index: 1;
     }
 
-    .hero-copy {
-      position: relative;
-    }
+    .hero-copy { position: relative; }
 
     .eyebrow {
       display: inline-flex;
@@ -224,10 +215,7 @@
       margin-bottom: 1rem;
     }
 
-    .eyebrow i {
-      color: var(--accent-3);
-      animation: pulseGlow 2s infinite ease-in-out;
-    }
+    .eyebrow i { color: var(--accent-3); animation: pulseGlow 2s infinite ease-in-out; }
 
     h1 {
       margin: 0;
@@ -265,8 +253,7 @@
       gap: 1rem;
     }
 
-    .primary-btn,
-    .secondary-btn {
+    .primary-btn, .secondary-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -291,9 +278,25 @@
       border-color: rgba(159, 168, 255, 0.28);
     }
 
-    .primary-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-3px);
+    .primary-btn:hover, .secondary-btn:hover { transform: translateY(-3px); }
+
+    .focus-areas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+      max-width: 640px;
+    }
+
+    .focus-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(159,168,255,0.18);
+      color: var(--muted-2);
+      border-radius: 999px;
+      padding: 0.42rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
     }
 
     .stats-row {
@@ -510,10 +513,7 @@
       line-height: 1.6;
     }
 
-    .about {
-      text-align: left;
-      margin-bottom: 1.5rem;
-    }
+    .about { text-align: left; margin-bottom: 1.5rem; }
 
     .about p {
       font-size: 1.06rem;
@@ -689,8 +689,7 @@
       transition: 0.25s ease;
     }
 
-    .filter-btn.active,
-    .filter-btn:hover {
+    .filter-btn.active, .filter-btn:hover {
       background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
       border-color: transparent;
       box-shadow: 0 0 18px rgba(109,124,255,0.2);
@@ -721,10 +720,7 @@
       transition: transform 0.45s ease;
     }
 
-    .project-card:hover::before {
-      transform: translateX(0);
-    }
-
+    .project-card:hover::before { transform: translateX(0); }
     .project-card:hover {
       transform: translateY(-4px);
       border-color: rgba(160, 166, 255, 0.8);
@@ -738,11 +734,7 @@
       gap: 0.75rem;
     }
 
-    .project-card h3 {
-      margin: 0;
-      font-size: 1.05rem;
-      color: var(--heading);
-    }
+    .project-card h3 { margin: 0; font-size: 1.05rem; color: var(--heading); }
 
     .project-tag {
       font-size: 0.72rem;
@@ -801,12 +793,7 @@
       box-shadow: 0 0 20px rgba(110, 116, 255, 0.2);
     }
 
-    .project-list ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
+    .project-list ul { list-style: none; margin: 0; padding: 0; }
     .project-list li {
       margin: 0.5rem 0;
       font-size: 1rem;
@@ -814,20 +801,14 @@
       transition: transform 0.2s ease;
     }
 
-    .project-list li:hover {
-      transform: translateX(4px);
-    }
-
+    .project-list li:hover { transform: translateX(4px); }
     .project-list a {
       color: #dfe7ff;
       text-decoration: none;
       font-weight: 600;
     }
 
-    .project-list a:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
+    .project-list a:hover { color: #ffffff; text-decoration: underline; }
 
     .contact-info {
       text-align: center;
@@ -886,11 +867,7 @@
       opacity: 0.2;
     }
 
-    .contact-button span {
-      position: relative;
-      z-index: 2;
-    }
-
+    .contact-button span { position: relative; z-index: 2; }
     .contact-button:hover {
       background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
       color: #fff;
@@ -915,10 +892,7 @@
       font-size: 1.2rem;
     }
 
-    .contact-form form {
-      display: grid;
-      gap: 0.9rem;
-    }
+    .contact-form form { display: grid; gap: 0.9rem; }
 
     input, textarea {
       width: 100%;
@@ -979,45 +953,18 @@
     }
 
     @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .github-panel {
-        grid-template-columns: 1fr;
-      }
+      .hero { grid-template-columns: 1fr; }
+      .github-panel { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 700px) {
-      body {
-        padding: 1rem;
-      }
-
-      .container {
-        padding: 1.2rem 1rem 2.5rem;
-      }
-
-      .top-bar {
-        flex-direction: column;
-      }
-
-      .top-nav {
-        width: 100%;
-      }
-
-      .stats-row,
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(120px, 1fr));
-      }
-
-      .skill-row {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
-
-      .contact-button {
-        width: 100%;
-      }
+      body { padding: 1rem; }
+      .container { padding: 1.2rem 1rem 2.5rem; }
+      .top-bar { flex-direction: column; }
+      .top-nav { width: 100%; }
+      .stats-row, .stats-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .skill-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .contact-button { width: 100%; }
     }
   </style>
 </head>
@@ -1057,19 +1004,18 @@
           <a class="secondary-btn" href="#contact"><i class="fas fa-paper-plane"></i> Hire Me</a>
         </div>
 
+        <div class="focus-areas" aria-label="Focus areas">
+          <span class="focus-chip">Full-Stack</span>
+          <span class="focus-chip">Robotics</span>
+          <span class="focus-chip">AI & CV</span>
+          <span class="focus-chip">IoT</span>
+          <span class="focus-chip">MERN</span>
+        </div>
+
         <div class="stats-row">
-          <div class="stat-box">
-            <strong>12+</strong>
-            <span>Projects</span>
-          </div>
-          <div class="stat-box">
-            <strong>8+</strong>
-            <span>Robotics</span>
-          </div>
-          <div class="stat-box">
-            <strong>3</strong>
-            <span>Awards</span>
-          </div>
+          <div class="stat-box"><strong>12+</strong><span>Projects</span></div>
+          <div class="stat-box"><strong>8+</strong><span>Robotics</span></div>
+          <div class="stat-box"><strong>3</strong><span>Awards</span></div>
         </div>
       </div>
 
@@ -1095,18 +1041,9 @@
           </div>
 
           <div class="metrics">
-            <div class="metric">
-              <strong>2025</strong>
-              <span>Certified</span>
-            </div>
-            <div class="metric">
-              <strong>3rd</strong>
-              <span>Hackathon</span>
-            </div>
-            <div class="metric">
-              <strong>∞</strong>
-              <span>Curiosity</span>
-            </div>
+            <div class="metric"><strong>2025</strong><span>Certified</span></div>
+            <div class="metric"><strong>3rd</strong><span>Hackathon</span></div>
+            <div class="metric"><strong>∞</strong><span>Curiosity</span></div>
           </div>
         </div>
       </div>
@@ -1145,31 +1082,11 @@
       </ul>
 
       <div class="skill-list">
-        <div class="skill-row">
-          <span>Full-Stack Web</span>
-          <div class="progress-bar"><div class="progress-fill" style="width: 92%;"></div></div>
-          <strong>92%</strong>
-        </div>
-        <div class="skill-row">
-          <span>Python</span>
-          <div class="progress-bar"><div class="progress-fill" style="width: 88%;"></div></div>
-          <strong>88%</strong>
-        </div>
-        <div class="skill-row">
-          <span>Robotics</span>
-          <div class="progress-bar"><div class="progress-fill" style="width: 84%;"></div></div>
-          <strong>84%</strong>
-        </div>
-        <div class="skill-row">
-          <span>Computer Vision</span>
-          <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
-          <strong>80%</strong>
-        </div>
-        <div class="skill-row">
-          <span>IoT / Embedded</span>
-          <div class="progress-bar"><div class="progress-fill" style="width: 86%;"></div></div>
-          <strong>86%</strong>
-        </div>
+        <div class="skill-row"><span>Full-Stack Web</span><div class="progress-bar"><div class="progress-fill" style="width: 92%;"></div></div><strong>92%</strong></div>
+        <div class="skill-row"><span>Python</span><div class="progress-bar"><div class="progress-fill" style="width: 88%;"></div></div><strong>88%</strong></div>
+        <div class="skill-row"><span>Robotics</span><div class="progress-bar"><div class="progress-fill" style="width: 84%;"></div></div><strong>84%</strong></div>
+        <div class="skill-row"><span>Computer Vision</span><div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div><strong>80%</strong></div>
+        <div class="skill-row"><span>IoT / Embedded</span><div class="progress-bar"><div class="progress-fill" style="width: 86%;"></div></div><strong>86%</strong></div>
       </div>
     </section>
 
@@ -1180,22 +1097,10 @@
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card">
-          <strong>2025</strong>
-          <span>MERN Certified</span>
-        </div>
-        <div class="stat-card">
-          <strong>8+</strong>
-          <span>Robotics builds</span>
-        </div>
-        <div class="stat-card">
-          <strong>3rd</strong>
-          <span>Hackathon</span>
-        </div>
-        <div class="stat-card">
-          <strong>∞</strong>
-          <span>Learning</span>
-        </div>
+        <div class="stat-card"><strong>2025</strong><span>MERN Certified</span></div>
+        <div class="stat-card"><strong>8+</strong><span>Robotics builds</span></div>
+        <div class="stat-card"><strong>3rd</strong><span>Hackathon</span></div>
+        <div class="stat-card"><strong>∞</strong><span>Learning</span></div>
       </div>
 
       <div class="about">
@@ -1222,75 +1127,39 @@
 
       <div class="project-grid">
         <article class="project-card" data-category="iot">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a></h3>
-            <span class="project-tag">IoT</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a></h3><span class="project-tag">IoT</span></div>
           <p>Real-time AQI data collection and monitoring system for environmental sensing and data visualization.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">Arduino</span>
-            <span class="tech-pill">Sensors</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">Arduino</span><span class="tech-pill">Sensors</span></div>
         </article>
 
         <article class="project-card" data-category="robotics">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a></h3>
-            <span class="project-tag">Robotics</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a></h3><span class="project-tag">Robotics</span></div>
           <p>Wi‑Fi camera rover control platform combining robotics, embedded control, and live remote interaction.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">ESP32</span>
-            <span class="tech-pill">Web</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">ESP32</span><span class="tech-pill">Web</span></div>
         </article>
 
         <article class="project-card" data-category="web">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a></h3>
-            <span class="project-tag">Web App</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a></h3><span class="project-tag">Web App</span></div>
           <p>Concept food delivery platform with workflow-driven UI and user-focused product thinking.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">MERN</span>
-            <span class="tech-pill">UI/UX</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">MERN</span><span class="tech-pill">UI/UX</span></div>
         </article>
 
         <article class="project-card" data-category="web">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a></h3>
-            <span class="project-tag">API</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a></h3><span class="project-tag">API</span></div>
           <p>Full-stack task system with authentication, session logic, and API-driven frontend interactions.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">Node</span>
-            <span class="tech-pill">Auth</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">Node</span><span class="tech-pill">Auth</span></div>
         </article>
 
         <article class="project-card" data-category="vision">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a></h3>
-            <span class="project-tag">Vision</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a></h3><span class="project-tag">Vision</span></div>
           <p>OpenCV-based project exploring intelligent image processing, detection, and visual insight workflows.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">OpenCV</span>
-            <span class="tech-pill">Python</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">OpenCV</span><span class="tech-pill">Python</span></div>
         </article>
 
         <article class="project-card" data-category="robotics">
-          <div class="project-header">
-            <h3><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a></h3>
-            <span class="project-tag">Automation</span>
-          </div>
+          <div class="project-header"><h3><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a></h3><span class="project-tag">Automation</span></div>
           <p>Autonomous obstacle avoidance robot prototype focused on motion logic and embedded decision-making.</p>
-          <div class="tech-stack">
-            <span class="tech-pill">C++</span>
-            <span class="tech-pill">Robotics</span>
-          </div>
+          <div class="tech-stack"><span class="tech-pill">C++</span><span class="tech-pill">Robotics</span></div>
         </article>
       </div>
 
@@ -1313,12 +1182,8 @@
       </div>
 
       <div class="github-panel">
-        <div class="github-card">
-          <img src="https://github-readme-stats.vercel.app/api?username=theopintheo&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub stats for Theopin" />
-        </div>
-        <div class="github-card">
-          <img src="https://github-readme-streak-stats.herokuapp.com/?user=theopintheo&theme=tokyonight&hide_border=true" alt="GitHub streak stats for Theopin" />
-        </div>
+        <div class="github-card"><img src="https://github-readme-stats.vercel.app/api?username=theopintheo&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub stats for Theopin" /></div>
+        <div class="github-card"><img src="https://github-readme-streak-stats.herokuapp.com/?user=theopintheo&theme=tokyonight&hide_border=true" alt="GitHub streak stats for Theopin" /></div>
       </div>
     </section>
 
@@ -1374,7 +1239,6 @@
       applyTheme(nextTheme);
     });
 
-    // Particle animation
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
     const resizeCanvas = () => {
@@ -1466,16 +1330,13 @@
       )`;
     });
 
-    // Project filter
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const filter = button.getAttribute('data-filter');
-
         filterButtons.forEach((btn) => btn.classList.toggle('active', btn === button));
-
         projectCards.forEach((card) => {
           const match = filter === 'all' || card.dataset.category === filter;
           card.style.display = match ? 'flex' : 'none';
@@ -1485,11 +1346,7 @@
 
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
+      backToTop.classList.toggle('visible', window.scrollY > 300);
     });
 
     backToTop.addEventListener('click', () => {
@@ -1500,6 +1357,7 @@
     gsap.from('h1', { duration: 1.1, y: 20, opacity: 0, ease: 'power3.out' });
     gsap.from('.hero-sub', { duration: 0.9, y: 18, opacity: 0, delay: 0.15, ease: 'power2.out' });
     gsap.from('.hero-actions a', { duration: 0.7, y: 16, opacity: 0, stagger: 0.08, delay: 0.3, ease: 'back.out(1.3)' });
+    gsap.from('.focus-chip', { duration: 0.6, y: 12, opacity: 0, stagger: 0.05, delay: 0.42, ease: 'power2.out' });
     gsap.from('.stat-box', { duration: 0.7, y: 18, opacity: 0, stagger: 0.1, delay: 0.45, ease: 'power2.out' });
     gsap.from('.profile-card', { duration: 1, x: 22, opacity: 0, delay: 0.35, ease: 'power3.out' });
     gsap.from('.nav-link', { duration: 0.8, y: -10, opacity: 0, stagger: 0.08, delay: 0.2, ease: 'power2.out' });
