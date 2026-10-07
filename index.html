@@ -85,6 +85,27 @@
       z-index: -1;
     }
 
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(73, 206, 218, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(73, 206, 218, 0.08) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at 50% 52%, black 12%, transparent 78%);
+      opacity: 0.45;
+      transform: perspective(800px) rotateX(58deg) scale(1.8);
+      transform-origin: center 82%;
+      animation: gridDrift 42s linear infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes gridDrift {
+      to { background-position: 80px 80px; }
+    }
+
     canvas {
       position: fixed;
       inset: 0;
@@ -413,18 +434,42 @@
       box-shadow: 0 0 12px rgba(103,232,165,0.9);
     }
 
-    .profile-avatar {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 1rem;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(109,124,255,0.9), rgba(184,92,255,0.9));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.3rem;
-      box-shadow: 0 0 28px rgba(109,124,255,0.28);
-      border: 1px solid rgba(255,255,255,0.08);
+    .profile-image-wrap {
+      height: 210px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      background: linear-gradient(135deg, #23636b, #202640 55%, #895c8b);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .profile-image-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 35% 0 0;
+      background: linear-gradient(transparent, rgba(5,8,22,0.36));
+      pointer-events: none;
+    }
+
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 38%;
+      transition: transform 0.6s ease;
+    }
+
+    .profile-image-wrap:hover .profile-image { transform: scale(1.04); }
+
+    .profile-card {
+      min-height: 0;
+    }
+
+    .profile-top {
+      margin-bottom: 0.8rem;
     }
 
     .profile-name {
@@ -666,8 +711,8 @@
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 1.15rem;
       margin-top: 1.5rem;
     }
 
@@ -696,18 +741,93 @@
     }
 
     .project-card {
-      background: linear-gradient(180deg, rgba(22,24,44,0.88), rgba(17,20,35,0.78));
-      border: 1px solid rgba(159,168,255,0.18);
-      border-radius: 20px;
-      padding: 1.2rem;
-      box-shadow: 0 0 20px rgba(109,124,255,0.1);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      background: linear-gradient(155deg, rgba(23,31,48,0.94), rgba(12,17,31,0.92));
+      border: 1px solid rgba(159,168,255,0.2);
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 16px 42px rgba(0,0,0,0.24), inset 0 1px rgba(255,255,255,0.04);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      min-height: 200px;
+      gap: 0.9rem;
+      min-height: 360px;
       position: relative;
       overflow: hidden;
+    }
+
+    .project-cover {
+      height: 160px;
+      flex: 0 0 auto;
+      padding: 1rem;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: #183d48;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        radial-gradient(ellipse at 76% 34%, rgba(93,222,205,0.42), transparent 50%),
+        linear-gradient(135deg, #15343b, #172435 65%, #31364d);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .project-cover::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: 10%;
+      bottom: -95px;
+      z-index: -1;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(255,255,255,0.035), 0 0 0 38px rgba(255,255,255,0.025);
+    }
+
+    .project-cover[data-art="rover"] {
+      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(112,164,255,0.5), transparent 50%), linear-gradient(135deg, #182c4b, #18263a 65%, #36334e);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .project-cover[data-art="food"] {
+      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,174,105,0.5), transparent 50%), linear-gradient(135deg, #46352e, #302a32 65%, #453344);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .project-cover[data-art="tasks"] {
+      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(184,153,255,0.48), transparent 50%), linear-gradient(135deg, #302d52, #26263c 65%, #263b4a);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .project-cover[data-art="vision"] {
+      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,112,126,0.42), transparent 50%), linear-gradient(135deg, #422c40, #29283d 65%, #263f4b);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .project-cover[data-art="automation"] {
+      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,205,105,0.42), transparent 50%), linear-gradient(135deg, #443b27, #2e2e31 65%, #254147);
+      background-size: 24px 24px, 24px 24px, auto, auto;
+    }
+
+    .cover-index, .cover-caption {
+      color: rgba(245,249,255,0.84);
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+    }
+
+    .cover-symbol {
+      align-self: center;
+      color: rgba(255,255,255,0.92);
+      font-size: 3.2rem;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+      transform: translateY(2px);
     }
 
     .project-card::before {
@@ -722,9 +842,9 @@
 
     .project-card:hover::before { transform: translateX(0); }
     .project-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
       border-color: rgba(160, 166, 255, 0.8);
-      box-shadow: 0 0 28px rgba(109,124,255,0.18);
+      box-shadow: 0 22px 48px rgba(0,0,0,0.34), 0 0 28px rgba(109,124,255,0.14);
     }
 
     .project-header {
@@ -752,6 +872,16 @@
       color: var(--project-text);
       line-height: 1.7;
       flex: 1;
+    }
+
+    .project-meta {
+      border-top: 1px solid rgba(159,168,255,0.14);
+      padding-top: 0.65rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     .tech-stack {
@@ -924,6 +1054,82 @@
       box-shadow: 0 0 22px rgba(109,124,255,0.2);
     }
 
+    .security-warning {
+      width: min(760px, calc(100% - 2rem));
+      padding: clamp(2rem, 7vw, 4rem);
+      border: 1px solid #5f6368;
+      border-radius: 8px;
+      background: #202124;
+      color: #e8eaed;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+    }
+
+    .security-warning::backdrop { background: rgba(0,0,0,0.76); }
+
+    .warning-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 5px solid #9aa0a6;
+      border-radius: 50%;
+      color: #9aa0a6;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .security-warning h2 {
+      margin: 3rem 0 1.2rem;
+      color: #bdc1c6;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 400;
+      line-height: 1.35;
+    }
+
+    .security-warning p {
+      margin: 0;
+      color: #bdc1c6;
+      line-height: 1.65;
+    }
+
+    .warning-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 4rem;
+    }
+
+    .warning-actions button {
+      min-height: 44px;
+      padding: 0.65rem 1.1rem;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .warning-send {
+      border: 1px solid #73777c;
+      background: #303134;
+      color: #8ab4f8;
+    }
+
+    .warning-back {
+      border: 0;
+      background: #8ab4f8;
+      color: #202124;
+    }
+
+    @media (max-width: 520px) {
+      .warning-actions { margin-top: 2.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::after { animation: none; }
+      .profile-image { transition: none; }
+    }
+
     .back-to-top {
       position: fixed;
       right: 24px;
@@ -1028,7 +1234,9 @@
             <div></div>
             <div class="profile-status"><span class="status-dot"></span> Open to work</div>
           </div>
-          <div class="profile-avatar"><i class="fas fa-code"></i></div>
+          <div class="profile-image-wrap">
+            <img class="profile-image" src="https://github.com/theopintheo.png" alt="Theopin B profile photo" fetchpriority="high">
+          </div>
           <div class="profile-name">THEOPIN B</div>
           <div class="profile-role">Full-Stack Developer | Robotics Engineer</div>
 
@@ -1123,43 +1331,56 @@
         <button class="filter-btn" data-filter="web">Web</button>
         <button class="filter-btn" data-filter="iot">IoT</button>
         <button class="filter-btn" data-filter="robotics">Robotics</button>
+        <button class="filter-btn" data-filter="vision">AI & Vision</button>
       </div>
 
       <div class="project-grid">
         <article class="project-card" data-category="iot">
+          <div class="project-cover" data-art="air"><span class="cover-index">01 / Environment</span><i class="cover-symbol fas fa-wind" aria-hidden="true"></i><span class="cover-caption">Air quality · Live telemetry</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a></h3><span class="project-tag">IoT</span></div>
           <p>Real-time AQI data collection and monitoring system for environmental sensing and data visualization.</p>
           <div class="tech-stack"><span class="tech-pill">Arduino</span><span class="tech-pill">Sensors</span></div>
+          <div class="project-meta">Embedded sensing / Data visualization</div>
         </article>
 
         <article class="project-card" data-category="robotics">
+          <div class="project-cover" data-art="rover"><span class="cover-index">02 / Robotics</span><i class="cover-symbol fas fa-camera" aria-hidden="true"></i><span class="cover-caption">Remote rover · Wi-Fi control</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a></h3><span class="project-tag">Robotics</span></div>
           <p>Wi‑Fi camera rover control platform combining robotics, embedded control, and live remote interaction.</p>
           <div class="tech-stack"><span class="tech-pill">ESP32</span><span class="tech-pill">Web</span></div>
+          <div class="project-meta">Embedded control / Remote interface</div>
         </article>
 
         <article class="project-card" data-category="web">
+          <div class="project-cover" data-art="food"><span class="cover-index">03 / Commerce</span><i class="cover-symbol fas fa-utensils" aria-hidden="true"></i><span class="cover-caption">Ordering flow · Product UI</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a></h3><span class="project-tag">Web App</span></div>
           <p>Concept food delivery platform with workflow-driven UI and user-focused product thinking.</p>
           <div class="tech-stack"><span class="tech-pill">MERN</span><span class="tech-pill">UI/UX</span></div>
+          <div class="project-meta">Full-stack product / Customer workflow</div>
         </article>
 
         <article class="project-card" data-category="web">
+          <div class="project-cover" data-art="tasks"><span class="cover-index">04 / Productivity</span><i class="cover-symbol fas fa-list-check" aria-hidden="true"></i><span class="cover-caption">Tasks · Identity · API</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a></h3><span class="project-tag">API</span></div>
           <p>Full-stack task system with authentication, session logic, and API-driven frontend interactions.</p>
           <div class="tech-stack"><span class="tech-pill">Node</span><span class="tech-pill">Auth</span></div>
+          <div class="project-meta">Authentication / API integration</div>
         </article>
 
         <article class="project-card" data-category="vision">
+          <div class="project-cover" data-art="vision"><span class="cover-index">05 / Computer vision</span><i class="cover-symbol fas fa-crosshairs" aria-hidden="true"></i><span class="cover-caption">Image analysis · OpenCV</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a></h3><span class="project-tag">Vision</span></div>
           <p>OpenCV-based project exploring intelligent image processing, detection, and visual insight workflows.</p>
           <div class="tech-stack"><span class="tech-pill">OpenCV</span><span class="tech-pill">Python</span></div>
+          <div class="project-meta">Image processing / Detection</div>
         </article>
 
         <article class="project-card" data-category="robotics">
+          <div class="project-cover" data-art="automation"><span class="cover-index">06 / Automation</span><i class="cover-symbol fas fa-robot" aria-hidden="true"></i><span class="cover-caption">Obstacle avoidance · Motion logic</span></div>
           <div class="project-header"><h3><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a></h3><span class="project-tag">Automation</span></div>
           <p>Autonomous obstacle avoidance robot prototype focused on motion logic and embedded decision-making.</p>
           <div class="tech-stack"><span class="tech-pill">C++</span><span class="tech-pill">Robotics</span></div>
+          <div class="project-meta">Autonomous navigation / Embedded logic</div>
         </article>
       </div>
 
@@ -1213,6 +1434,16 @@
       </div>
     </section>
   </div>
+
+  <dialog class="security-warning" id="securityWarning" aria-labelledby="warningTitle" aria-describedby="warningDescription">
+    <div class="warning-icon" aria-hidden="true">i</div>
+    <h2 id="warningTitle">The information that you’re about to submit is not secure</h2>
+    <p id="warningDescription">Because this form is being submitted using a connection that’s not secure, your information will be visible to others.</p>
+    <div class="warning-actions">
+      <button class="warning-send" id="warningSend" type="button">Send anyway</button>
+      <button class="warning-back" id="warningBack" type="button">Go back</button>
+    </div>
+  </dialog>
 
   <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
@@ -1332,6 +1563,30 @@
 
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+
+    const contactForm = document.querySelector('.contact-form form');
+    const securityWarning = document.getElementById('securityWarning');
+    let allowFormSubmit = false;
+
+    contactForm.addEventListener('submit', (event) => {
+      if (allowFormSubmit) {
+        allowFormSubmit = false;
+        return;
+      }
+      event.preventDefault();
+      securityWarning.showModal();
+    });
+
+    document.getElementById('warningSend').addEventListener('click', () => {
+      allowFormSubmit = true;
+      securityWarning.close();
+      contactForm.requestSubmit();
+    });
+
+    document.getElementById('warningBack').addEventListener('click', () => {
+      securityWarning.close();
+      contactForm.querySelector('textarea').focus();
+    });
 
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
