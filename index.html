@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-L8I9j6fyKkdByI7iJ5C0f7oQ4N2y2gPpk+yYzxmCJQx91ihoUV+Yqc/cq3W8Vf4Cfa1ku0aO59dZ9K5sI1bE6g==" crossorigin="anonymous"></script>
   <style>
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -63,6 +69,34 @@
       backdrop-filter: blur(14px);
     }
 
+    .top-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin: 0 0 2rem;
+      padding: 0.75rem 1rem;
+      background: rgba(22, 25, 48, 0.8);
+      border: 1px solid rgba(138, 142, 255, 0.35);
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(108, 99, 255, 0.15);
+    }
+
+    .nav-link {
+      color: #dfe3ff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(110, 116, 255, 0.18);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
     h1, h2 {
       text-align: center;
       letter-spacing: 1px;
@@ -91,9 +125,12 @@
       margin-top: 2rem;
     }
 
-    .skills ul {
-      list-style: none;
-      padding: 0;
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.9rem;
+      margin-top: 1.5rem;
     }
 
     .skills li {
@@ -107,6 +144,7 @@
       color: #e0e0e0;
       transition: all 0.3s ease;
       cursor: default;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .skills li:hover {
@@ -119,6 +157,91 @@
         0 0 40px #8a8dff;
     }
 
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .project-card {
+      background: rgba(26, 28, 53, 0.6);
+      border: 1px solid rgba(112, 122, 255, 0.36);
+      border-radius: 16px;
+      padding: 1.15rem;
+      box-shadow: 0 0 20px rgba(110, 116, 255, 0.15);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 180px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(160, 166, 255, 0.7);
+      box-shadow: 0 0 25px rgba(110, 116, 255, 0.28);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .project-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      color: #eef0ff;
+    }
+
+    .project-tag {
+      font-size: 0.72rem;
+      padding: 0.28rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(110, 116, 255, 0.2);
+      color: #dfe3ff;
+      border: 1px solid rgba(158, 164, 255, 0.2);
+      white-space: nowrap;
+    }
+
+    .project-card p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: #d1d5ff;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding-top: 0.25rem;
+    }
+
+    .tech-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #edf0ff;
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .project-card a {
+      color: #c8d0ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .project-card a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
     .project-list {
       text-align: left;
       max-width: 820px;
@@ -128,6 +251,12 @@
       border-radius: 14px;
       padding: 1rem 1.1rem;
       box-shadow: 0 0 20px rgba(110, 116, 255, 0.2);
+    }
+
+    .project-list ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
     .project-list li {
@@ -247,6 +376,28 @@
       width: 100%;
       margin-top: 0;
     }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .top-nav {
+        border-radius: 18px;
+      }
+
+      .nav-link {
+        font-size: 0.88rem;
+      }
+
+      .contact-button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -254,36 +405,43 @@
   <div id="spotlight"></div>
 
   <div class="container">
-    <h1>THEOPIN B</h1>
-    <p style="text-align:center; color:#d0d4ff; margin:0.2rem 0 1rem; letter-spacing:0.3px; font-size:1rem;">Full-Stack Developer | Robotics</p>
-    <p style="text-align:center; color:#b0b4e0; margin:0 0 1.5rem;">BCA (ongoing) — Don Bosco Arts & Science College, Chennai</p>
+    <nav class="top-nav" aria-label="Main navigation">
+      <a class="nav-link" href="#profile">Profile</a>
+      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#projects">Projects</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </nav>
 
-    <div class="about">
-      <h2>Profile</h2>
-      <p>
-        Computer Science student specializing in Full-Stack Web Development and Robotics Systems. Experienced in building MERN applications and developing robotics prototypes with microcontrollers, contributing to real-time data collection and autonomous systems projects.
-        Passionate about solving real-world problems through software engineering and intelligent systems.
-      </p>
-    </div>
+    <section id="profile">
+      <h1>THEOPIN B</h1>
+      <p style="text-align:center; color:#d0d4ff; margin:0.2rem 0 1rem; letter-spacing:0.3px; font-size:1rem;">Full-Stack Developer | Robotics</p>
+      <p style="text-align:center; color:#b0b4e0; margin:0 0 1.5rem;">BCA (ongoing) — Don Bosco Arts & Science College, Chennai</p>
 
-    
+      <div class="about">
+        <h2>Profile</h2>
+        <p>
+          Computer Science student specializing in Full-Stack Web Development and Robotics Systems. Experienced in building MERN applications and developing robotics prototypes with microcontrollers, contributing to real-time data collection and autonomous systems projects.
+          Passionate about solving real-world problems through software engineering and intelligent systems.
+        </p>
+      </div>
+    </section>
 
-    <div class="skills">
-      <h2>Technical Skills</h2>
-      <ul>
-        <li>JavaScript</li>
-        <li>Python</li>
-        <li>C++</li>
-        <li>HTML & CSS</li>
-        <li>MERN Stack</li>
-        <li>Computer Vision (OpenCV)</li>
-        <li>Microcontrollers (Arduino, ESP32, Raspberry Pi)</li>
-        <li>IoT Systems</li>
-        <li>Robotics Prototyping</li>
-      </ul>
-    </div>
-
-   
+    <section id="skills">
+      <div class="skills">
+        <h2>Technical Skills</h2>
+        <ul class="skills-grid">
+          <li>JavaScript</li>
+          <li>Python</li>
+          <li>C++</li>
+          <li>HTML & CSS</li>
+          <li>MERN Stack</li>
+          <li>Computer Vision (OpenCV)</li>
+          <li>Microcontrollers (Arduino, ESP32, Raspberry Pi)</li>
+          <li>IoT Systems</li>
+          <li>Robotics Prototyping</li>
+        </ul>
+      </div>
+    </section>
 
     <div class="about">
       <h2>Certifications & Awards</h2>
@@ -294,37 +452,108 @@
       </p>
     </div>
 
-    <div class="about">
-      <h2>GitHub Projects</h2>
-      <div class="project-list">
-        <ul>
-          <li><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a> — Real-time AQI data collection (serial).</li>
-          <li><a href="https://github.com/theopintheo/Arduino-Tutorials" target="_blank">Arduino-Tutorials</a> — Arduino circuits and sample code guides.</li>
-          <li><a href="https://github.com/theopintheo/college-web-TRY" target="_blank">college-web-TRY</a> — College website project.</li>
-          <li><a href="https://github.com/theopintheo/css-topics" target="_blank">css-topics</a> — CSS learning resources.</li>
-          <li><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a> — Wi-Fi camera rover control.</li>
-          <li><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a> — Food delivery web app.</li>
-          <li><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a> — OpenCV-based project.</li>
-          <li><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a> — Autonomous obstacle avoidance robot.</li>
-          <li><a href="https://github.com/theopintheo/portfolio" target="_blank">portfolio</a> — Personal portfolio website.</li>
-          <li><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a> — Full-stack todo app with auth APIs.</li>
-        </ul>
-      </div>
-      <p style="font-size:0.9rem; color:#c2c2e7;">Visit <a href="https://github.com/theopintheo?tab=repositories" target="_blank" style="color:#f4dbff;">all repositories on GitHub</a>.</p>
-    </div>
+    <section id="projects">
+      <div class="about">
+        <h2>GitHub Projects</h2>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a></h3>
+              <span class="project-tag">IoT</span>
+            </div>
+            <p>Real-time AQI data collection with serial-based monitoring for environmental sensing.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">Arduino</span>
+              <span class="tech-pill">Sensors</span>
+            </div>
+          </article>
 
-    <div class="contact-info">
-      <h2>For Building Projects</h2>
-      <p class="contact-heading">Reach out for collaboration, internships, and assignments.</p>
-      <div class="contact-buttons">
-        <a class="contact-button" href="tel:+917708180940" target="_blank"><i class="fas fa-phone-alt"></i> <span>Call</span></a>
-        <a class="contact-button" href="mailto:theopintheo@gmail.com" target="_blank"><i class="fas fa-envelope"></i> <span>Mail</span></a>
-        <a class="contact-button" href="https://github.com/theopintheo" target="_blank"><i class="fas fa-code"></i> <span>Projects</span></a>
-        <a class="contact-button" href="https://www.linkedin.com/in/theopin-b-9a1774360/?isSelfProfile=true" target="_blank"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
-        <a class="contact-button" href="https://wa.me/917708180940?text=Hey%20Theopin%2C%20I%20just%20checked%20your%20portfolio!" target="_blank"><i class="fas fa-comments"></i> <span>Chat</span></a>
-        <a class="contact-button" href="https://drive.google.com/file/d/1rariElUkyGQgwl3qQdcOxXnotyeW8S8-/view?usp=sharing" target="_blank"><i class="fas fa-file-download"></i> <span>Resume</span></a>
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a></h3>
+              <span class="project-tag">Robotics</span>
+            </div>
+            <p>Wi-Fi camera rover control project combining IoT and embedded robotics experimentation.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">ESP32</span>
+              <span class="tech-pill">Web</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a></h3>
+              <span class="project-tag">Web App</span>
+            </div>
+            <p>Food delivery platform concept showcasing front-end and business flow design.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">MERN</span>
+              <span class="tech-pill">UI/UX</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a></h3>
+              <span class="project-tag">API</span>
+            </div>
+            <p>Full-stack task app with authentication flows, backend logic, and user session handling.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">Node</span>
+              <span class="tech-pill">Auth</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a></h3>
+              <span class="project-tag">Vision</span>
+            </div>
+            <p>OpenCV-centered project focused on computer vision and intelligent image processing.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">OpenCV</span>
+              <span class="tech-pill">Python</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a></h3>
+              <span class="project-tag">Automation</span>
+            </div>
+            <p>Autonomous obstacle avoidance robot prototype for robotics and embedded systems learning.</p>
+            <div class="tech-stack">
+              <span class="tech-pill">C++</span>
+              <span class="tech-pill">Robotics</span>
+            </div>
+          </article>
+        </div>
+        <div class="project-list" style="margin-top: 1.25rem;">
+          <ul>
+            <li><a href="https://github.com/theopintheo/Arduino-Tutorials" target="_blank">Arduino-Tutorials</a> — Arduino circuits and sample code guides.</li>
+            <li><a href="https://github.com/theopintheo/college-web-TRY" target="_blank">college-web-TRY</a> — College website project.</li>
+            <li><a href="https://github.com/theopintheo/css-topics" target="_blank">css-topics</a> — CSS learning resources.</li>
+            <li><a href="https://github.com/theopintheo/portfolio" target="_blank">portfolio</a> — Personal portfolio website.</li>
+          </ul>
+        </div>
+        <p style="font-size:0.9rem; color:#c2c2e7; margin-top: 1rem;">Visit <a href="https://github.com/theopintheo?tab=repositories" target="_blank" style="color:#f4dbff;">all repositories on GitHub</a>.</p>
       </div>
-    </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-info">
+        <h2>For Building Projects</h2>
+        <p class="contact-heading">Reach out for collaboration, internships, and assignments.</p>
+        <div class="contact-buttons">
+          <a class="contact-button" href="tel:+917708180940" target="_blank"><i class="fas fa-phone-alt"></i> <span>Call</span></a>
+          <a class="contact-button" href="mailto:theopintheo@gmail.com" target="_blank"><i class="fas fa-envelope"></i> <span>Mail</span></a>
+          <a class="contact-button" href="https://github.com/theopintheo" target="_blank"><i class="fas fa-code"></i> <span>Projects</span></a>
+          <a class="contact-button" href="https://www.linkedin.com/in/theopin-b-9a1774360/?isSelfProfile=true" target="_blank"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
+          <a class="contact-button" href="https://wa.me/917708180940?text=Hey%20Theopin%2C%20I%20just%20checked%20your%20portfolio!" target="_blank"><i class="fas fa-comments"></i> <span>Chat</span></a>
+          <a class="contact-button" href="https://drive.google.com/file/d/1rariElUkyGQgwl3qQdcOxXnotyeW8S8-/view?usp=sharing" target="_blank"><i class="fas fa-file-download"></i> <span>Resume</span></a>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -410,30 +639,20 @@
       const x = e.clientX;
       const y = e.clientY;
 
-      // High-intensity white spotlight
-      spotlight.style.background = `radial-gradient(
-        circle at ${x}px ${y}px,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.1) 20%,
-        transparent 60%
-      )`;
-
-      // 🔵 Optional neon spotlight version (comment/uncomment as needed)
-      
       spotlight.style.background = `radial-gradient(
         circle at ${x}px ${y}px,
         rgba(110, 116, 255, 0.3) 0%,
         rgba(155, 120, 255, 0.15) 25%,
         transparent 60%
       )`;
-    
     });
 
     // GSAP animations
     gsap.from("h1", {duration: 1.2, y: -40, opacity: 0, ease: "power3.out"});
+    gsap.from(".nav-link", {duration: 0.8, y: -12, opacity: 0, stagger: 0.08, delay: 0.15, ease: "power2.out"});
     gsap.from(".about h2", {duration: 1, y: 20, opacity: 0, stagger: 0.12, delay: 0.2, ease: "power2.out"});
-    gsap.from(".project-list li", {duration: 0.8, x: -15, opacity: 0, stagger: 0.06, delay: 0.7, ease: "power2.out"});
-    gsap.from(".contact-button", {duration: 0.7, y: 10, opacity: 0, stagger: 0.08, delay: 0.5, ease: "back.out(1.2)"});
+    gsap.from(".project-card", {duration: 0.8, y: 18, opacity: 0, stagger: 0.08, delay: 0.5, ease: "power2.out"});
+    gsap.from(".contact-button", {duration: 0.7, y: 10, opacity: 0, stagger: 0.08, delay: 0.6, ease: "back.out(1.2)"});
   </script>
 </body>
 </html>
