@@ -687,9 +687,9 @@
 
     .github-panel {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
-      align-items: center;
+      align-items: stretch;
       margin-top: 1.2rem;
     }
 
@@ -700,6 +700,7 @@
       padding: 0.8rem;
       box-shadow: 0 0 18px rgba(109,124,255,0.08);
       overflow: hidden;
+      min-width: 0;
     }
 
     .github-card img {
@@ -708,6 +709,75 @@
       height: auto;
       border-radius: 12px;
     }
+
+    .github-live-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .github-activity-state {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .activity-dot {
+      width: 9px;
+      height: 9px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #9aa3b5;
+    }
+
+    .github-activity-state.is-active .activity-dot {
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(103,232,165,0.7);
+    }
+
+    .recent-repos {
+      display: grid;
+      gap: 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .recent-repos li + li {
+      padding-top: 0.7rem;
+      border-top: 1px solid rgba(159,168,255,0.14);
+    }
+
+    .recent-repos a {
+      color: var(--heading);
+      font-weight: 800;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .recent-repos a:hover { color: var(--accent-3); }
+
+    .recent-repos span {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .github-all-repos {
+      margin-top: auto;
+      padding-top: 0.5rem;
+      color: var(--accent-3);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .github-all-repos:hover { text-decoration: underline; }
 
     .project-grid {
       display: grid;
@@ -1219,7 +1289,7 @@
         </div>
 
         <div class="stats-row">
-          <div class="stat-box"><strong>12+</strong><span>Projects</span></div>
+          <div class="stat-box"><strong id="githubRepoCount">--</strong><span>Public Repositories</span></div>
           <div class="stat-box"><strong>8+</strong><span>Robotics</span></div>
           <div class="stat-box"><strong>3</strong><span>Awards</span></div>
         </div>
@@ -1253,6 +1323,28 @@
             <div class="metric"><strong>3rd</strong><span>Hackathon</span></div>
             <div class="metric"><strong>∞</strong><span>Curiosity</span></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="github-activity">
+      <div class="section-header">
+        <h2>GitHub Activity</h2>
+        <p>Live contribution streak, recent pushes, and public repositories.</p>
+      </div>
+
+      <div class="github-panel">
+        <div class="github-card"><img src="https://github-readme-stats.vercel.app/api?username=theopintheo&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub stats for Theopin" loading="lazy" /></div>
+        <div class="github-card"><img src="https://github-readme-streak-stats.herokuapp.com/?user=theopintheo&theme=tokyonight&hide_border=true" alt="GitHub contribution streak for Theopin" loading="lazy" /></div>
+        <div class="github-card github-live-card">
+          <div class="github-activity-state" id="githubActivityState" aria-live="polite">
+            <span class="activity-dot" aria-hidden="true"></span>
+            <span id="githubActivityText">Loading recent activity...</span>
+          </div>
+          <ol class="recent-repos" id="recentRepos" aria-label="Recently pushed repositories">
+            <li>Loading recent repositories...</li>
+          </ol>
+          <a class="github-all-repos" href="https://github.com/theopintheo?tab=repositories" target="_blank" rel="noopener noreferrer">Browse all repositories <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
         </div>
       </div>
     </section>
@@ -1387,18 +1479,6 @@
       </div>
 
       <p style="font-size:0.9rem; color:#c2c2e7; margin-top: 1rem;">Visit <a href="https://github.com/theopintheo?tab=repositories" target="_blank" style="color:#f4dbff;">all repositories on GitHub</a>.</p>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
-        <h2>GitHub Activity</h2>
-        <p>Live coding footprint from GitHub.</p>
-      </div>
-
-      <div class="github-panel">
-        <div class="github-card"><img src="https://github-readme-stats.vercel.app/api?username=theopintheo&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub stats for Theopin" /></div>
-        <div class="github-card"><img src="https://github-readme-streak-stats.herokuapp.com/?user=theopintheo&theme=tokyonight&hide_border=true" alt="GitHub streak stats for Theopin" /></div>
-      </div>
     </section>
 
     <section id="contact" class="section">
@@ -1555,6 +1635,85 @@
 
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+
+    const githubUsername = 'theopintheo';
+    const githubRepoCount = document.getElementById('githubRepoCount');
+    const recentReposList = document.getElementById('recentRepos');
+    const githubActivityState = document.getElementById('githubActivityState');
+    const githubActivityText = document.getElementById('githubActivityText');
+
+    function formatTimeSince(date) {
+      const elapsedSeconds = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
+      if (elapsedSeconds < 60) return 'just now';
+      const units = [
+        ['year', 31536000],
+        ['month', 2592000],
+        ['day', 86400],
+        ['hour', 3600],
+        ['minute', 60]
+      ];
+      const [unit, seconds] = units.find(([, value]) => elapsedSeconds >= value);
+      const count = Math.floor(elapsedSeconds / seconds);
+      return `${count} ${unit}${count === 1 ? '' : 's'} ago`;
+    }
+
+    function renderRecentRepositories(repositories) {
+      recentReposList.replaceChildren();
+      repositories.slice(0, 3).forEach((repository) => {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        const details = document.createElement('span');
+        const pushedAt = new Date(repository.pushed_at);
+
+        link.href = repository.html_url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = repository.name;
+        details.textContent = `${repository.language || 'Repository'} · Updated ${formatTimeSince(pushedAt)}`;
+        item.append(link, details);
+        recentReposList.append(item);
+      });
+    }
+
+    async function updateGitHubActivity() {
+      try {
+        const [profileResponse, repositoriesResponse] = await Promise.all([
+          fetch(`https://api.github.com/users/${githubUsername}`),
+          fetch(`https://api.github.com/users/${githubUsername}/repos?sort=pushed&direction=desc&per_page=100&type=owner`)
+        ]);
+
+        if (!profileResponse.ok || !repositoriesResponse.ok) {
+          throw new Error('GitHub API request failed');
+        }
+
+        const [profile, repositories] = await Promise.all([
+          profileResponse.json(),
+          repositoriesResponse.json()
+        ]);
+        const recentRepositories = repositories
+          .filter((repository) => !repository.fork && !repository.archived && repository.pushed_at)
+          .sort((first, second) => new Date(second.pushed_at) - new Date(first.pushed_at));
+
+        githubRepoCount.textContent = profile.public_repos.toLocaleString();
+        if (recentRepositories.length) {
+          renderRecentRepositories(recentRepositories);
+          const latestPush = new Date(recentRepositories[0].pushed_at);
+          const isActiveThisWeek = Date.now() - latestPush.getTime() < 7 * 24 * 60 * 60 * 1000;
+          githubActivityState.classList.toggle('is-active', isActiveThisWeek);
+          githubActivityText.textContent = `Latest public push ${formatTimeSince(latestPush)}${isActiveThisWeek ? ' · Active this week' : ''}`;
+        } else {
+          githubActivityText.textContent = 'No recent public repository activity';
+          recentReposList.replaceChildren();
+        }
+      } catch (error) {
+        githubActivityText.textContent = 'Live GitHub data is temporarily unavailable';
+        recentReposList.replaceChildren();
+        githubRepoCount.textContent = '--';
+      }
+    }
+
+    updateGitHubActivity();
+    setInterval(updateGitHubActivity, 15 * 60 * 1000);
 
     const contactForm = document.querySelector('.contact-form form');
     const securityWarning = document.getElementById('securityWarning');
