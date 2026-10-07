@@ -137,7 +137,7 @@
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,0.04);
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .container::before {
@@ -145,18 +145,24 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(135deg, rgba(109,124,255,0.08), transparent 28%, rgba(184,92,255,0.06));
+      border-radius: inherit;
       pointer-events: none;
     }
 
     .top-bar {
-      position: relative;
-      z-index: 1;
+      position: sticky;
+      top: 0;
+      z-index: 30;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1.35rem;
+      margin: -0.5rem 0 1.35rem;
+      padding: 0.65rem 0;
       flex-wrap: wrap;
+      background: rgba(12, 15, 30, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
     }
 
     .top-nav {
