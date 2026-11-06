@@ -1,1769 +1,1654 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THEOPIN | Theo Portfolio</title>
-  <meta name="description" content="Theopin B — Full-Stack Developer and Robotics enthusiast building innovative web and embedded systems." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-L8I9j6fyKkdByI7iJ5C0f7oQ4N2y2gPpk+yYzxmCJQx91ihoUV+Yqc/cq3W8Vf4Cfa1ku0aO59dZ9K5sI1bE6g==" crossorigin="anonymous"></script>
-  <style>
-    :root {
-      --bg-1: #050816;
-      --bg-2: #0a1020;
-      --bg-3: #141a2d;
-      --panel: rgba(12, 15, 30, 0.72);
-      --panel-strong: rgba(17, 22, 40, 0.82);
-      --panel-soft: rgba(30, 37, 60, 0.45);
-      --glass: rgba(255, 255, 255, 0.05);
-      --border: rgba(129, 140, 255, 0.35);
-      --text: #edf0ff;
-      --muted: #b9c4f5;
-      --heading: #f3f5ff;
-      --accent-1: #6d7cff;
-      --accent-2: #b85cff;
-      --accent-3: #39d0ff;
-      --success: #67e8a5;
-      --chip: rgba(109, 124, 255, 0.14);
-      --chip-strong: #2c2f5a;
-      --shadow: rgba(106, 99, 255, 0.25);
-      --muted-2: #c8d0ff;
-      --nav-bg: rgba(16, 20, 36, 0.78);
-      --button-bg: rgba(255,255,255,0.04);
-      --project-text: #dfe7ff;
-      --line: rgba(167, 181, 255, 0.18);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(270deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-2));
-      background-size: 400% 400%;
-      animation: gradientAnimation 18s ease infinite;
-      color: var(--text);
-      min-height: 100vh;
-      padding: 2rem;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    @keyframes gradientAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes floatY {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 18px rgba(109, 124, 255, 0.18); }
-      50% { box-shadow: 0 0 28px rgba(184, 92, 255, 0.36); }
-    }
-
-    @keyframes orbit {
-      0% { transform: rotate(0deg) translateX(14px) rotate(0deg); }
-      100% { transform: rotate(360deg) translateX(14px) rotate(-360deg); }
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(73, 206, 218, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(73, 206, 218, 0.08) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse at 50% 52%, black 12%, transparent 78%);
-      opacity: 0.45;
-      transform: perspective(800px) rotateX(58deg) scale(1.8);
-      transform-origin: center 82%;
-      animation: gridDrift 42s linear infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    @keyframes gridDrift {
-      to { background-position: 80px 80px; }
-    }
-
-    canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    #spotlight {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 18%, transparent 55%);
-      mix-blend-mode: screen;
-      z-index: -1;
-      transition: background-position 0.03s ease;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      background: var(--panel);
-      border-radius: 28px;
-      padding: 2rem 2rem 3rem;
-      box-shadow: 0 0 50px var(--shadow);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.04);
-      position: relative;
-      overflow: visible;
-    }
-
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(109,124,255,0.08), transparent 28%, rgba(184,92,255,0.06));
-      border-radius: inherit;
-      pointer-events: none;
-    }
-
-    .top-bar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin: -0.5rem 0 1.35rem;
-      padding: 0.65rem 0;
-      flex-wrap: wrap;
-      background: rgba(12, 15, 30, 0.96);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(14px);
-    }
-
-    .top-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      padding: 0.75rem 1rem;
-      background: var(--nav-bg);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      box-shadow: 0 0 22px rgba(108, 99, 255, 0.15);
-      flex: 1;
-      min-width: 280px;
-    }
-
-    .nav-link {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 700;
-      padding: 0.55rem 0.9rem;
-      border-radius: 999px;
-      transition: 0.25s ease;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-link:hover {
-      background: rgba(109, 124, 255, 0.14);
-      color: #fff;
-      transform: translateY(-1px);
-    }
-
-    .theme-toggle {
-      border: 1px solid var(--border);
-      background: var(--button-bg);
-      color: var(--heading);
-      border-radius: 999px;
-      padding: 0.7rem 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: 0.25s ease;
-    }
-
-    .theme-toggle:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 16px rgba(109, 124, 255, 0.2);
-    }
-
-    .hero {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2rem;
-      align-items: center;
-      padding: 1.2rem 0 2rem;
-      z-index: 1;
-    }
-
-    .hero-copy { position: relative; }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(109, 124, 255, 0.11);
-      border: 1px solid rgba(109, 124, 255, 0.28);
-      color: #dfe7ff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .eyebrow i { color: var(--accent-3); animation: pulseGlow 2s infinite ease-in-out; }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.5rem, 4vw, 5rem);
-      line-height: 0.96;
-      letter-spacing: -0.05em;
-      text-align: left;
-      background: linear-gradient(135deg, #ffffff 0%, #f0d3ff 18%, #75f4ff 42%, #8f9bff 65%, #d774ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 16px rgba(109,124,255,0.18));
-    }
-
-    .headline-accent {
-      display: block;
-      background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-sub {
-      max-width: 640px;
-      margin-top: 1rem;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.8;
-    }
-
-    .hero-actions {
-      margin-top: 1.6rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .primary-btn, .secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.7rem;
-      padding: 0.98rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 800;
-      text-decoration: none;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      border: 1px solid transparent;
-    }
-
-    .primary-btn {
-      color: #fff;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      box-shadow: 0 0 24px rgba(109,124,255,0.38);
-    }
-
-    .secondary-btn {
-      color: var(--heading);
-      background: rgba(255,255,255,0.03);
-      border-color: rgba(159, 168, 255, 0.28);
-    }
-
-    .primary-btn:hover, .secondary-btn:hover { transform: translateY(-3px); }
-
-    .focus-areas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1.2rem;
-      max-width: 640px;
-    }
-
-    .focus-chip {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(159,168,255,0.18);
-      color: var(--muted-2);
-      border-radius: 999px;
-      padding: 0.42rem 0.8rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .stats-row {
-      margin-top: 1.8rem;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(140px, 1fr));
-      gap: 0.9rem;
-      max-width: 620px;
-    }
-
-    .stat-box {
-      padding: 1rem 1rem 0.9rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(159,168,255,0.18);
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 0 22px rgba(109,124,255,0.08);
-    }
-
-    .stat-box strong {
-      display: block;
-      font-size: 1.6rem;
-      color: #fff;
-      margin-bottom: 0.2rem;
-    }
-
-    .stat-box span {
-      color: var(--muted);
-      font-size: 0.82rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .hero-panel {
-      position: relative;
-      min-height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(10px);
-      opacity: 0.8;
-      animation: floatY 6s ease-in-out infinite;
-    }
-
-    .orb.one {
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle at center, rgba(109,124,255,0.8), rgba(109,124,255,0.08) 70%, transparent 100%);
-      right: 8%;
-      top: 8%;
-    }
-
-    .orb.two {
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle at center, rgba(184,92,255,0.7), rgba(184,92,255,0.08) 70%, transparent 100%);
-      left: 8%;
-      bottom: 9%;
-      animation-delay: 1s;
-    }
-
-    .profile-card {
-      position: relative;
-      width: min(100%, 410px);
-      min-height: 360px;
-      padding: 1.5rem;
-      background: rgba(12, 15, 30, 0.62);
-      border: 1px solid rgba(163, 173, 255, 0.22);
-      border-radius: 24px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 35px rgba(109,124,255,0.18), inset 0 0 0 1px rgba(255,255,255,0.04);
-      animation: pulseGlow 4s ease-in-out infinite;
-    }
-
-    .profile-card::before {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
-      pointer-events: none;
-    }
-
-    .profile-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.2rem;
-    }
-
-    .profile-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      border-radius: 999px;
-      background: rgba(103, 232, 165, 0.12);
-      border: 1px solid rgba(103, 232, 165, 0.28);
-      color: #d8ffe9;
-      font-weight: 700;
-      padding: 0.35rem 0.8rem;
-      font-size: 0.8rem;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 12px rgba(103,232,165,0.9);
-    }
-
-    .profile-image-wrap {
-      height: 210px;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      background: linear-gradient(135deg, #23636b, #202640 55%, #895c8b);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-    }
-
-    .profile-image-wrap::after {
-      content: "";
-      position: absolute;
-      inset: 35% 0 0;
-      background: linear-gradient(transparent, rgba(5,8,22,0.36));
-      pointer-events: none;
-    }
-
-    .profile-image {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: center 38%;
-      transition: transform 0.6s ease;
-    }
-
-    .profile-image-wrap:hover .profile-image { transform: scale(1.04); }
-
-    .profile-card {
-      min-height: 0;
-    }
-
-    .profile-top {
-      margin-bottom: 0.8rem;
-    }
-
-    .profile-name {
-      text-align: center;
-      font-size: 1.6rem;
-      font-weight: 800;
-      margin: 0.25rem 0 0.3rem;
-      color: var(--heading);
-    }
-
-    .profile-role {
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-      font-weight: 600;
-    }
-
-    .mini-badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 0.8rem;
-    }
-
-    .mini-badge {
-      padding: 0.45rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(159,168,255,0.2);
-      font-size: 0.72rem;
-      color: var(--muted-2);
-      font-weight: 700;
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-top: 1.2rem;
-    }
-
-    .metric {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(159,168,255,0.14);
-      border-radius: 12px;
-      text-align: center;
-      padding: 0.7rem 0.4rem;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 0.15rem;
-    }
-
-    .metric span {
-      color: var(--muted);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .section {
-      position: relative;
-      z-index: 1;
-      margin-top: 2rem;
-    }
-
-    .section-header {
-      margin-bottom: 1.2rem;
-    }
-
-    .section-header h2 {
-      margin: 0 0 0.4rem;
-      font-size: clamp(1.8rem, 2vw, 2.3rem);
-      text-align: left;
-      letter-spacing: -0.04em;
-    }
-
-    .section-header p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    .about { text-align: left; margin-bottom: 1.5rem; }
-
-    .about p {
-      font-size: 1.06rem;
-      line-height: 1.9;
-      background: rgba(26, 30, 52, 0.52);
-      padding: 1.5rem 1.4rem;
-      border-radius: 18px;
-      border: 1px solid rgba(159,168,255,0.16);
-      box-shadow: 0 0 22px rgba(109,124,255,0.08);
-      color: var(--text);
-    }
-
-    .skills {
-      margin-top: 2rem;
-    }
-
-    .skills-grid {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 0.8rem;
-      margin: 1.2rem 0 0;
-    }
-
-    .skills li {
-      display: inline-block;
-      margin: 0;
-      padding: 0.8rem 1rem;
-      background: linear-gradient(180deg, rgba(75,79,138,0.9), rgba(55,60,101,0.9));
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.92rem;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: all 0.3s ease;
-      cursor: default;
-      box-shadow: 0 0 16px rgba(109,124,255,0.08);
-    }
-
-    .skills li:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      box-shadow: 0 0 24px rgba(109,124,255,0.22);
-    }
-
-    .skill-list {
-      display: grid;
-      gap: 1rem;
-      margin-top: 1.7rem;
-    }
-
-    .skill-row {
-      display: grid;
-      grid-template-columns: 180px 1fr 60px;
-      align-items: center;
-      gap: 1rem;
-      text-align: left;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(159,168,255,0.14);
-      border-radius: 14px;
-      padding: 0.8rem 1rem;
-    }
-
-    .skill-row span {
-      font-weight: 700;
-      color: var(--heading);
-    }
-
-    .progress-bar {
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      box-shadow: 0 0 18px rgba(109,124,255,0.24);
-    }
-
-    .skill-row strong {
-      text-align: right;
-      color: var(--heading);
-      font-size: 0.9rem;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(120px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(159,168,255,0.14);
-      border-radius: 18px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 0 18px rgba(109,124,255,0.08);
-    }
-
-    .stat-card strong {
-      display: block;
-      font-size: clamp(1.4rem, 2.4vw, 2.2rem);
-      background: linear-gradient(90deg, #fff, #d3dcff 30%, #93d8ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: #fff;
-    }
-
-    .stat-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-top: 0.2rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .github-panel {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      align-items: stretch;
-      margin-top: 1.2rem;
-    }
-
-    .github-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 0.8rem;
-      box-shadow: 0 0 18px rgba(109,124,255,0.08);
-      overflow: hidden;
-      min-width: 0;
-    }
-
-    .github-card img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    .github-live-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .github-activity-state {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .activity-dot {
-      width: 9px;
-      height: 9px;
-      flex: 0 0 auto;
-      border-radius: 50%;
-      background: #9aa3b5;
-    }
-
-    .github-activity-state.is-active .activity-dot {
-      background: var(--success);
-      box-shadow: 0 0 10px rgba(103,232,165,0.7);
-    }
-
-    .recent-repos {
-      display: grid;
-      gap: 0.75rem;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .recent-repos li + li {
-      padding-top: 0.7rem;
-      border-top: 1px solid rgba(159,168,255,0.14);
-    }
-
-    .recent-repos a {
-      color: var(--heading);
-      font-weight: 800;
-      text-decoration: none;
-      overflow-wrap: anywhere;
-    }
-
-    .recent-repos a:hover { color: var(--accent-3); }
-
-    .recent-repos span {
-      display: block;
-      margin-top: 0.2rem;
-      color: var(--muted);
-      font-size: 0.75rem;
-      line-height: 1.5;
-    }
-
-    .github-all-repos {
-      margin-top: auto;
-      padding-top: 0.5rem;
-      color: var(--accent-3);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .github-all-repos:hover { text-decoration: underline; }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-      gap: 1.15rem;
-      margin-top: 1.5rem;
-    }
-
-    .project-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin: 1.1rem 0 0.2rem;
-    }
-
-    .filter-btn {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--heading);
-      border-radius: 999px;
-      padding: 0.53rem 0.9rem;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.25s ease;
-    }
-
-    .filter-btn.active, .filter-btn:hover {
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      border-color: transparent;
-      box-shadow: 0 0 18px rgba(109,124,255,0.2);
-    }
-
-    .project-card {
-      background: linear-gradient(155deg, rgba(23,31,48,0.94), rgba(12,17,31,0.92));
-      border: 1px solid rgba(159,168,255,0.2);
-      border-radius: 16px;
-      padding: 1rem;
-      box-shadow: 0 16px 42px rgba(0,0,0,0.24), inset 0 1px rgba(255,255,255,0.04);
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      min-height: 360px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-cover {
-      height: 160px;
-      flex: 0 0 auto;
-      padding: 1rem;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background-color: #183d48;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
-        radial-gradient(ellipse at 76% 34%, rgba(93,222,205,0.42), transparent 50%),
-        linear-gradient(135deg, #15343b, #172435 65%, #31364d);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .project-cover::after {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      right: 10%;
-      bottom: -95px;
-      z-index: -1;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50%;
-      box-shadow: 0 0 0 18px rgba(255,255,255,0.035), 0 0 0 38px rgba(255,255,255,0.025);
-    }
-
-    .project-cover[data-art="rover"] {
-      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(112,164,255,0.5), transparent 50%), linear-gradient(135deg, #182c4b, #18263a 65%, #36334e);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .project-cover[data-art="food"] {
-      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,174,105,0.5), transparent 50%), linear-gradient(135deg, #46352e, #302a32 65%, #453344);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .project-cover[data-art="tasks"] {
-      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(184,153,255,0.48), transparent 50%), linear-gradient(135deg, #302d52, #26263c 65%, #263b4a);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .project-cover[data-art="vision"] {
-      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,112,126,0.42), transparent 50%), linear-gradient(135deg, #422c40, #29283d 65%, #263f4b);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .project-cover[data-art="automation"] {
-      background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), radial-gradient(ellipse at 76% 34%, rgba(255,205,105,0.42), transparent 50%), linear-gradient(135deg, #443b27, #2e2e31 65%, #254147);
-      background-size: 24px 24px, 24px 24px, auto, auto;
-    }
-
-    .cover-index, .cover-caption {
-      color: rgba(245,249,255,0.84);
-      font-size: 0.67rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
-    }
-
-    .cover-symbol {
-      align-self: center;
-      color: rgba(255,255,255,0.92);
-      font-size: 3.2rem;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
-      transform: translateY(2px);
-    }
-
-    .project-card::before {
-      content: "";
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(109,124,255,0.8), rgba(184,92,255,0.8), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.45s ease;
-    }
-
-    .project-card:hover::before { transform: translateX(0); }
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(160, 166, 255, 0.8);
-      box-shadow: 0 22px 48px rgba(0,0,0,0.34), 0 0 28px rgba(109,124,255,0.14);
-    }
-
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .project-card h3 { margin: 0; font-size: 1.05rem; color: var(--heading); }
-
-    .project-tag {
-      font-size: 0.72rem;
-      padding: 0.28rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(109,124,255,0.12);
-      border: 1px solid rgba(159,168,255,0.18);
-      color: #edf0ff;
-      white-space: nowrap;
-    }
-
-    .project-card p {
-      margin: 0;
-      font-size: 0.93rem;
-      color: var(--project-text);
-      line-height: 1.7;
-      flex: 1;
-    }
-
-    .project-meta {
-      border-top: 1px solid rgba(159,168,255,0.14);
-      padding-top: 0.65rem;
-      color: var(--muted);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      padding-top: 0.2rem;
-    }
-
-    .tech-pill {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #edf0ff;
-      border-radius: 999px;
-      padding: 0.24rem 0.55rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .project-card a {
-      color: #dfe7ff;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .project-card a:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
-    .project-list {
-      text-align: left;
-      max-width: 820px;
-      margin: 1.4rem auto 0;
-      background: rgba(26, 28, 53, 0.6);
-      border: 1px solid rgba(112, 122, 255, 0.35);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
-      box-shadow: 0 0 20px rgba(110, 116, 255, 0.2);
-    }
-
-    .project-list ul { list-style: none; margin: 0; padding: 0; }
-    .project-list li {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      line-height: 1.6;
-      transition: transform 0.2s ease;
-    }
-
-    .project-list li:hover { transform: translateX(4px); }
-    .project-list a {
-      color: #dfe7ff;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .project-list a:hover { color: #ffffff; text-decoration: underline; }
-
-    .contact-info {
-      text-align: center;
-      margin-top: 3rem;
-    }
-
-    .contact-heading {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: #dfe7ff;
-    }
-
-    .contact-buttons {
-      margin-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .contact-button {
-      padding: 14px 30px;
-      font-size: 1rem;
-      font-weight: 800;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      background: transparent;
-      color: var(--heading);
-      text-transform: uppercase;
-      transition: 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(109,124,255,0.14);
-      border: 2px solid rgba(159,168,255,0.3);
-      text-decoration: none;
-    }
-
-    .contact-button::before {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 400%;
-      background: radial-gradient(circle, var(--accent-1), var(--accent-2), transparent 70%);
-      top: 100%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-      transition: 0.5s ease-in-out;
-      border-radius: 50%;
-      z-index: 0;
-    }
-
-    .contact-button:hover::before {
-      transform: translate(-50%, -50%) scale(1.5);
-      opacity: 0.2;
-    }
-
-    .contact-button span { position: relative; z-index: 2; }
-    .contact-button:hover {
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      color: #fff;
-      box-shadow: 0 0 14px rgba(109,124,255,0.2);
-    }
-
-    .contact-form {
-      max-width: 700px;
-      margin: 2.2rem auto 0;
-      padding: 1.4rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(159,168,255,0.18);
-      border-radius: 18px;
-      box-shadow: 0 0 18px rgba(109,124,255,0.08);
-      text-align: left;
-    }
-
-    .contact-form h3 {
-      margin-top: 0;
-      text-align: center;
-      color: var(--heading);
-      font-size: 1.2rem;
-    }
-
-    .contact-form form { display: grid; gap: 0.9rem; }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(159,168,255,0.2);
-      background: rgba(12,15,32,0.8);
-      color: var(--heading);
-      font: inherit;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: rgba(109,124,255,0.55);
-      box-shadow: 0 0 0 3px rgba(109,124,255,0.12);
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      margin-top: 0;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      color: #fff;
-      padding: 0.9rem 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 0 22px rgba(109,124,255,0.2);
-    }
-
-    .security-warning {
-      width: min(760px, calc(100% - 2rem));
-      padding: clamp(2rem, 7vw, 4rem);
-      border: 1px solid #5f6368;
-      border-radius: 8px;
-      background: #202124;
-      color: #e8eaed;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-    }
-
-    .security-warning::backdrop { background: rgba(0,0,0,0.76); }
-
-    .warning-icon {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      border: 5px solid #9aa0a6;
-      border-radius: 50%;
-      color: #9aa0a6;
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .security-warning h2 {
-      margin: 3rem 0 1.2rem;
-      color: #bdc1c6;
-      font-size: clamp(1.35rem, 3vw, 2rem);
-      font-weight: 400;
-      line-height: 1.35;
-    }
-
-    .security-warning p {
-      margin: 0;
-      color: #bdc1c6;
-      line-height: 1.65;
-    }
-
-    .warning-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-top: 4rem;
-    }
-
-    .warning-actions button {
-      min-height: 44px;
-      padding: 0.65rem 1.1rem;
-      border-radius: 999px;
-      font: inherit;
-      cursor: pointer;
-    }
-
-    .warning-send {
-      border: 1px solid #73777c;
-      background: #303134;
-      color: #8ab4f8;
-    }
-
-    .warning-back {
-      border: 0;
-      background: #8ab4f8;
-      color: #202124;
-    }
-
-    @media (max-width: 520px) {
-      .warning-actions { margin-top: 2.5rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      body::after { animation: none; }
-      .profile-image { transition: none; }
-    }
-
-    .back-to-top {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: rgba(17, 18, 35, 0.8);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(20px);
-      transition: 0.25s ease;
-      box-shadow: 0 0 20px rgba(110, 116, 255, 0.25);
-      z-index: 20;
-    }
-
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .github-panel { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 700px) {
-      body { padding: 1rem; }
-      .container { padding: 1.2rem 1rem 2.5rem; }
-      .top-bar { flex-direction: column; }
-      .top-nav { width: 100%; }
-      .stats-row, .stats-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
-      .skill-row { grid-template-columns: 1fr; gap: 0.5rem; }
-      .contact-button { width: 100%; }
-    }
-  </style>
-</head>
-<body>
-  <canvas id="particleCanvas"></canvas>
-  <div id="spotlight"></div>
-
-  <div class="container">
-    <div class="top-bar">
-      <nav class="top-nav" aria-label="Main navigation">
-        <a class="nav-link" href="#profile">Profile</a>
-        <a class="nav-link" href="#skills">Skills</a>
-        <a class="nav-link" href="#experience">Experience</a>
-        <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#contact">Contact</a>
-      </nav>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-        <span>Dark</span>
-      </button>
-    </div>
-
-    <section class="hero" id="profile">
-      <div class="hero-copy">
-        <div class="eyebrow"><i class="fas fa-bolt"></i> Available for project work</div>
-        <h1>
-          I build <span class="headline-accent">smarter digital systems</span>
-          <span>and robotics experiences.</span>
-        </h1>
-        <p class="hero-sub">
-          I’m Theo — a developer focused on full-stack web engineering, robotics, computer vision, and embedded systems.
-          I create solutions that connect software, hardware, and real-world impact.
-        </p>
-
-        <div class="hero-actions">
-          <a class="primary-btn" href="#projects"><i class="fas fa-arrow-right"></i> View Projects</a>
-          <a class="secondary-btn" href="#contact"><i class="fas fa-paper-plane"></i> Hire Me</a>
-        </div>
-
-        <div class="focus-areas" aria-label="Focus areas">
-          <span class="focus-chip">Full-Stack</span>
-          <span class="focus-chip">Robotics</span>
-          <span class="focus-chip">AI & CV</span>
-          <span class="focus-chip">IoT</span>
-          <span class="focus-chip">MERN</span>
-        </div>
-
-        <div class="stats-row">
-          <div class="stat-box"><strong id="githubRepoCount">--</strong><span>Public Repositories</span></div>
-          <div class="stat-box"><strong>8+</strong><span>Robotics</span></div>
-          <div class="stat-box"><strong>3</strong><span>Awards</span></div>
-        </div>
-      </div>
-
-      <div class="hero-panel" aria-label="Profile highlights">
-        <div class="orb one"></div>
-        <div class="orb two"></div>
-
-        <div class="profile-card">
-          <div class="profile-top">
-            <div></div>
-            <div class="profile-status"><span class="status-dot"></span> Open to work</div>
-          </div>
-          <div class="profile-image-wrap">
-            <img class="profile-image" src="https://github.com/theopintheo.png" alt="Theopin B profile photo" fetchpriority="high">
-          </div>
-          <div class="profile-name">THEOPIN B</div>
-          <div class="profile-role">Full-Stack Developer | Robotics Engineer</div>
-
-          <div class="mini-badges">
-            <span class="mini-badge">MERN</span>
-            <span class="mini-badge">Python</span>
-            <span class="mini-badge">C++</span>
-            <span class="mini-badge">IoT</span>
-            <span class="mini-badge">OpenCV</span>
-          </div>
-
-          <div class="metrics">
-            <div class="metric"><strong>2025</strong><span>Certified</span></div>
-            <div class="metric"><strong>3rd</strong><span>Hackathon</span></div>
-            <div class="metric"><strong>∞</strong><span>Curiosity</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="github-activity">
-      <div class="section-header">
-        <h2>GitHub Activity</h2>
-        <p>Live contribution streak, recent pushes, and public repositories.</p>
-      </div>
-
-      <div class="github-panel">
-        <div class="github-card"><img src="https://github-readme-stats.vercel.app/api?username=theopintheo&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub stats for Theopin" loading="lazy" /></div>
-        <div class="github-card"><img src="https://github-readme-streak-stats.herokuapp.com/?user=theopintheo&theme=tokyonight&hide_border=true" alt="GitHub contribution streak for Theopin" loading="lazy" /></div>
-        <div class="github-card github-live-card">
-          <div class="github-activity-state" id="githubActivityState" aria-live="polite">
-            <span class="activity-dot" aria-hidden="true"></span>
-            <span id="githubActivityText">Loading recent activity...</span>
-          </div>
-          <ol class="recent-repos" id="recentRepos" aria-label="Recently pushed repositories">
-            <li>Loading recent repositories...</li>
-          </ol>
-          <a class="github-all-repos" href="https://github.com/theopintheo?tab=repositories" target="_blank" rel="noopener noreferrer">Browse all repositories <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section about">
-      <div class="section-header">
-        <h2>About Me</h2>
-      </div>
-      <p>
-        I’m a technology-driven Computer Science student focused on building impactful solutions at the intersection of web development, robotics, and intelligent systems.
-        My work blends full-stack engineering with embedded systems, real-time data collection, computer vision, and automation — all driven by a strong interest in solving practical problems with code.
-        From MERN-based applications to Arduino, ESP32, and robotics prototypes, I enjoy turning ideas into working products that are useful, scalable, and meaningful.
-      </p>
-    </section>
-
-    <section class="section" id="skills">
-      <div class="section-header">
-        <h2>Core Strengths</h2>
-        <p>Tools and technologies I use to design and build modern solutions.</p>
-      </div>
-
-      <ul class="skills-grid">
-        <li>JavaScript</li>
-        <li>Python</li>
-        <li>C++</li>
-        <li>HTML & CSS</li>
-        <li>MERN Stack</li>
-        <li>Node.js</li>
-        <li>OpenCV</li>
-        <li>Arduino</li>
-        <li>ESP32</li>
-        <li>Raspberry Pi</li>
-        <li>IoT Systems</li>
-        <li>Robotics Prototyping</li>
-      </ul>
-
-    </section>
-
-    <section class="section" id="experience">
-      <div class="section-header">
-        <h2>Experience & Learning</h2>
-        <p>Growing through projects, problem-solving, and real-world experimentation.</p>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card"><strong>2025</strong><span>MERN Certified</span></div>
-        <div class="stat-card"><strong>8+</strong><span>Robotics builds</span></div>
-        <div class="stat-card"><strong>3rd</strong><span>Hackathon</span></div>
-        <div class="stat-card"><strong>∞</strong><span>Learning</span></div>
-      </div>
-
-      <div class="about">
-        <p>
-          • MERN Stack Full-Stack Web Development Certification (2025)<br>
-          • Young Inspiration Award — Dr. APJ Abdul Kalam International Foundation<br>
-          • 3rd Place — INNOHACK'26 IoT AQI Monitoring
-        </p>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="section-header">
-        <h2>Featured Projects</h2>
-        <p>Selected work spanning web apps, robotics, and intelligent systems.</p>
-      </div>
-
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="web">Web</button>
-        <button class="filter-btn" data-filter="iot">IoT</button>
-        <button class="filter-btn" data-filter="robotics">Robotics</button>
-        <button class="filter-btn" data-filter="vision">AI & Vision</button>
-      </div>
-
-      <div class="project-grid">
-        <article class="project-card" data-category="iot">
-          <div class="project-cover" data-art="air"><span class="cover-index">01 / Environment</span><i class="cover-symbol fas fa-wind" aria-hidden="true"></i><span class="cover-caption">Air quality · Live telemetry</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/AQI_FROM_SERIAL" target="_blank">AQI_FROM_SERIAL</a></h3><span class="project-tag">IoT</span></div>
-          <p>Real-time AQI data collection and monitoring system for environmental sensing and data visualization.</p>
-          <div class="tech-stack"><span class="tech-pill">Arduino</span><span class="tech-pill">Sensors</span></div>
-          <div class="project-meta">Embedded sensing / Data visualization</div>
-        </article>
-
-        <article class="project-card" data-category="robotics">
-          <div class="project-cover" data-art="rover"><span class="cover-index">02 / Robotics</span><i class="cover-symbol fas fa-camera" aria-hidden="true"></i><span class="cover-caption">Remote rover · Wi-Fi control</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/ESP32-CAR" target="_blank">ESP32-CAR</a></h3><span class="project-tag">Robotics</span></div>
-          <p>Wi‑Fi camera rover control platform combining robotics, embedded control, and live remote interaction.</p>
-          <div class="tech-stack"><span class="tech-pill">ESP32</span><span class="tech-pill">Web</span></div>
-          <div class="project-meta">Embedded control / Remote interface</div>
-        </article>
-
-        <article class="project-card" data-category="web">
-          <div class="project-cover" data-art="food"><span class="cover-index">03 / Commerce</span><i class="cover-symbol fas fa-utensils" aria-hidden="true"></i><span class="cover-caption">Ordering flow · Product UI</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/FoodDeliveryWeb" target="_blank">FoodDeliveryWeb</a></h3><span class="project-tag">Web App</span></div>
-          <p>Concept food delivery platform with workflow-driven UI and user-focused product thinking.</p>
-          <div class="tech-stack"><span class="tech-pill">MERN</span><span class="tech-pill">UI/UX</span></div>
-          <div class="project-meta">Full-stack product / Customer workflow</div>
-        </article>
-
-        <article class="project-card" data-category="web">
-          <div class="project-cover" data-art="tasks"><span class="cover-index">04 / Productivity</span><i class="cover-symbol fas fa-list-check" aria-hidden="true"></i><span class="cover-caption">Tasks · Identity · API</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/todos-with-login-API" target="_blank">todos-with-login-API</a></h3><span class="project-tag">API</span></div>
-          <p>Full-stack task system with authentication, session logic, and API-driven frontend interactions.</p>
-          <div class="tech-stack"><span class="tech-pill">Node</span><span class="tech-pill">Auth</span></div>
-          <div class="project-meta">Authentication / API integration</div>
-        </article>
-
-        <article class="project-card" data-category="vision">
-          <div class="project-cover" data-art="vision"><span class="cover-index">05 / Computer vision</span><i class="cover-symbol fas fa-crosshairs" aria-hidden="true"></i><span class="cover-caption">Image analysis · OpenCV</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/MMC" target="_blank">MMC</a></h3><span class="project-tag">Vision</span></div>
-          <p>OpenCV-based project exploring intelligent image processing, detection, and visual insight workflows.</p>
-          <div class="tech-stack"><span class="tech-pill">OpenCV</span><span class="tech-pill">Python</span></div>
-          <div class="project-meta">Image processing / Detection</div>
-        </article>
-
-        <article class="project-card" data-category="robotics">
-          <div class="project-cover" data-art="automation"><span class="cover-index">06 / Automation</span><i class="cover-symbol fas fa-robot" aria-hidden="true"></i><span class="cover-caption">Obstacle avoidance · Motion logic</span></div>
-          <div class="project-header"><h3><a href="https://github.com/theopintheo/Obstacle-avoiding-car" target="_blank">Obstacle-avoiding-car</a></h3><span class="project-tag">Automation</span></div>
-          <p>Autonomous obstacle avoidance robot prototype focused on motion logic and embedded decision-making.</p>
-          <div class="tech-stack"><span class="tech-pill">C++</span><span class="tech-pill">Robotics</span></div>
-          <div class="project-meta">Autonomous navigation / Embedded logic</div>
-        </article>
-      </div>
-
-    </section>
-
-    <section id="contact" class="section">
-      <div class="contact-info">
-        <h2>Let’s build something smart.</h2>
-        <p class="contact-heading">Reach out for collaboration, internships, freelance work, and innovative project ideas.</p>
-
-        <div class="contact-buttons">
-          <a class="contact-button" href="tel:+917708180940" target="_blank"><i class="fas fa-phone-alt"></i> <span>Call</span></a>
-          <a class="contact-button" href="mailto:theopintheo@gmail.com" target="_blank"><i class="fas fa-envelope"></i> <span>Mail</span></a>
-          <a class="contact-button" href="https://github.com/theopintheo" target="_blank"><i class="fas fa-code"></i> <span>Projects</span></a>
-          <a class="contact-button" href="https://www.linkedin.com/in/theopin-b-9a1774360/?isSelfProfile=true" target="_blank"><i class="fab fa-linkedin"></i> <span>LinkedIn</span></a>
-          <a class="contact-button" href="https://wa.me/917708180940?text=Hey%20Theopin%2C%20I%20just%20checked%20your%20portfolio!" target="_blank"><i class="fas fa-comments"></i> <span>Chat</span></a>
-          <a class="contact-button" href="https://drive.google.com/file/d/1rariElUkyGQgwl3qQdcOxXnotyeW8S8-/view?usp=sharing" target="_blank"><i class="fas fa-file-download"></i> <span>Resume</span></a>
-        </div>
-
-        <div class="contact-form">
-          <form action="mailto:theopintheo@gmail.com" method="post" enctype="text/plain">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
-            <button type="submit">Send Message</button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <dialog class="security-warning" id="securityWarning" aria-labelledby="warningTitle" aria-describedby="warningDescription">
-    <div class="warning-icon" aria-hidden="true">i</div>
-    <h2 id="warningTitle">The information that you’re about to submit is not secure</h2>
-    <p id="warningDescription">Because this form is being submitted using a connection that’s not secure, your information will be visible to others.</p>
-    <div class="warning-actions">
-      <button class="warning-send" id="warningSend" type="button">Send anyway</button>
-      <button class="warning-back" id="warningBack" type="button">Go back</button>
-    </div>
-  </dialog>
-
-  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-
-  <script>
-    const body = document.body;
-    const themeToggle = document.getElementById('themeToggle');
-    const themeLabel = themeToggle.querySelector('span');
-    const icon = themeToggle.querySelector('i');
-
-    const applyTheme = (theme) => {
-      body.setAttribute('data-theme', theme);
-      const isDark = theme === 'dark';
-      icon.classList.toggle('fa-moon', isDark);
-      icon.classList.toggle('fa-sun', !isDark);
-      themeLabel.textContent = isDark ? 'Dark' : 'Light';
-      localStorage.setItem('portfolioTheme', theme);
-    };
-
-    const savedTheme = localStorage.getItem('portfolioTheme') || 'dark';
-    applyTheme(savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(nextTheme);
-    });
-
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-
-    let particles = [];
-
-    function Particle(x, y) {
-      this.x = x;
-      this.y = y;
-      this.size = Math.random() * 5 + 1;
-      this.speedX = Math.random() * 3 - 1.5;
-      this.speedY = Math.random() * 3 - 1.5;
-    }
-
-    Particle.prototype.update = function () {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.size > 0.2) this.size -= 0.1;
-    };
-
-    Particle.prototype.draw = function () {
-      ctx.fillStyle = 'rgba(255,255,255,0.8)';
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    };
-
-    function createParticles(e) {
-      const xPos = e.x;
-      const yPos = e.y;
-      for (let i = 0; i < 5; i++) {
-        particles.push(new Particle(xPos, yPos));
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>THEOPIN | Theo Portfolio</title>
+    <meta
+      name="description"
+      content="Theo B — Full-Stack Developer and Robotics enthusiast building innovative web and embedded systems."
+    />
+    <meta name="theme-color" content="#050816" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg-1: #050816;
+        --bg-2: #0a1020;
+        --bg-3: #141a2d;
+        --panel: rgba(12, 15, 30, 0.72);
+        --panel-strong: rgba(17, 22, 40, 0.82);
+        --nav-bg: rgba(16, 20, 36, 0.78);
+        --button-bg: rgba(255, 255, 255, 0.04);
+        --glass: rgba(255, 255, 255, 0.05);
+        --border: rgba(129, 140, 255, 0.35);
+        --text: #edf0ff;
+        --muted: #b9c4f5;
+        --heading: #f3f5ff;
+        --accent-1: #6d7cff;
+        --accent-2: #b85cff;
+        --accent-3: #39d0ff;
+        --success: #67e8a5;
+        --chip: rgba(109, 124, 255, 0.14);
+        --line: rgba(167, 181, 255, 0.18);
+        --shadow: rgba(106, 99, 255, 0.25);
+        --project-text: #dfe7ff;
+        --card: rgba(255, 255, 255, 0.03);
+        --card-strong: rgba(255, 255, 255, 0.06);
+        --surface: rgba(26, 30, 52, 0.52);
       }
-    }
 
-    function createSparkle() {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const sparkle = new Particle(x, y);
-      sparkle.size = Math.random() * 2 + 0.8;
-      sparkle.speedX = Math.random() * 1.2 - 0.6;
-      sparkle.speedY = Math.random() * 1.2 - 0.6;
-      sparkle.alpha = 0.9;
-      sparkle.fade = Math.random() * 0.02 + 0.007;
-      sparkle.draw = function () {
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      };
-      sparkle.update = function () {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= this.fade;
-      };
-      particles.push(sparkle);
-    }
+      [data-theme="light"] {
+        --bg-1: #edf3ff;
+        --bg-2: #dfe9ff;
+        --bg-3: #f5f7ff;
+        --panel: rgba(255, 255, 255, 0.8);
+        --panel-strong: rgba(255, 255, 255, 0.96);
+        --nav-bg: rgba(255, 255, 255, 0.78);
+        --button-bg: rgba(15, 23, 42, 0.04);
+        --glass: rgba(17, 24, 39, 0.04);
+        --border: rgba(88, 103, 255, 0.24);
+        --text: #111827;
+        --muted: #495a7a;
+        --heading: #0f172a;
+        --project-text: #1f2937;
+        --card: rgba(15, 23, 42, 0.03);
+        --card-strong: rgba(15, 23, 42, 0.06);
+        --surface: rgba(232, 240, 255, 0.88);
+        --shadow: rgba(119, 140, 255, 0.14);
+      }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (Math.random() < 0.08) createSparkle();
-      particles.forEach((particle, index) => {
-        particle.update();
-        particle.draw();
-        if (particle.size <= 0.2 || particle.alpha <= 0) {
-          particles.splice(index, 1);
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(270deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-2));
+        background-size: 400% 400%;
+        animation: gradientAnimation 18s ease infinite;
+        color: var(--text);
+        min-height: 100vh;
+        padding: 2rem;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      a { color: inherit; }
+      img { max-width: 100%; display: block; }
+      button, input, textarea, select { font: inherit; }
+
+      @keyframes gradientAnimation {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      @keyframes floatY {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-10px); }
+      }
+
+      @keyframes pulseGlow {
+        0%, 100% { box-shadow: 0 0 18px rgba(109, 124, 255, 0.18); }
+        50%      { box-shadow: 0 0 28px rgba(184, 92, 255, 0.36); }
+      }
+
+      @keyframes gridDrift {
+        to { background-position: 80px 80px; }
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+      }
+
+      body::before {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+      }
+
+      body::after {
+        background-image:
+          linear-gradient(rgba(73, 206, 218, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(73, 206, 218, 0.08) 1px, transparent 1px);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(ellipse at 50% 52%, black 12%, transparent 78%);
+        opacity: 0.45;
+        transform: perspective(800px) rotateX(58deg) scale(1.8);
+        transform-origin: center 82%;
+        animation: gridDrift 42s linear infinite;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -3rem;
+        background: var(--accent-1);
+        color: #fff;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        z-index: 100;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      #spotlight {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 18%, transparent 55%);
+        mix-blend-mode: screen;
+        z-index: -1;
+        transition: background-position 0.03s ease;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.04);
+        border-radius: 28px;
+        box-shadow: 0 0 50px var(--shadow);
+        backdrop-filter: blur(14px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(109,124,255,0.08), transparent 28%, rgba(184,92,255,0.06));
+        pointer-events: none;
+      }
+
+      .top-bar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.9rem 1.5rem 0.8rem;
+        background: rgba(12, 15, 30, 0.9);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(14px);
+      }
+
+      [data-theme="light"] .top-bar {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .top-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--nav-bg);
+        box-shadow: 0 0 22px rgba(108, 99, 255, 0.15);
+        flex: 1;
+        min-width: 260px;
+      }
+
+      .nav-link {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        transition: background 0.25s ease, transform 0.25s ease, color 0.25s ease;
+      }
+
+      .nav-link:hover,
+      .nav-link:focus-visible {
+        background: rgba(109, 124, 255, 0.14);
+        color: #fff;
+        transform: translateY(-1px);
+      }
+
+      .theme-toggle {
+        border: 1px solid var(--border);
+        background: var(--button-bg);
+        color: var(--heading);
+        border-radius: 999px;
+        padding: 0.7rem 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .theme-toggle:hover,
+      .theme-toggle:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 0 16px rgba(109, 124, 255, 0.2);
+      }
+
+      .content {
+        padding: 1.6rem 1.6rem 2.2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        align-items: center;
+        padding: 1.1rem 0 2rem;
+      }
+
+      .hero-copy {
+        position: relative;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(109, 124, 255, 0.11);
+        border: 1px solid rgba(109, 124, 255, 0.28);
+        color: #dfe7ff;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+
+      .eyebrow i {
+        color: var(--accent-3);
+        animation: pulseGlow 2s infinite ease-in-out;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.6rem, 4vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+        background: linear-gradient(135deg, #ffffff 0%, #f0d3ff 18%, #75f4ff 42%, #8f9bff 65%, #d774ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 16px rgba(109,124,255,0.18));
+      }
+
+      .headline-accent {
+        display: block;
+        background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-sub {
+        max-width: 640px;
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.8;
+      }
+
+      .hero-actions {
+        margin-top: 1.6rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.7rem;
+        padding: 0.98rem 1.5rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        border: 1px solid transparent;
+      }
+
+      .primary-btn {
+        color: #fff;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 0 24px rgba(109,124,255,0.38);
+      }
+
+      .secondary-btn {
+        color: var(--heading);
+        background: rgba(255,255,255,0.03);
+        border-color: rgba(159, 168, 255, 0.28);
+      }
+
+      .primary-btn:hover,
+      .secondary-btn:hover,
+      .primary-btn:focus-visible,
+      .secondary-btn:focus-visible {
+        transform: translateY(-3px);
+      }
+
+      .focus-areas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.2rem;
+        max-width: 640px;
+      }
+
+      .focus-chip {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(159,168,255,0.18);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 0.42rem 0.8rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .stats-row {
+        margin-top: 1.8rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        gap: 0.9rem;
+        max-width: 620px;
+      }
+
+      .stat-box {
+        padding: 1rem 1rem 0.9rem;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(159,168,255,0.18);
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 0 22px rgba(109,124,255,0.08);
+      }
+
+      .stat-box strong {
+        display: block;
+        font-size: 1.6rem;
+        color: #fff;
+        margin-bottom: 0.2rem;
+      }
+
+      .stat-box span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .hero-panel {
+        position: relative;
+        min-height: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0.8;
+        animation: floatY 6s ease-in-out infinite;
+      }
+
+      .orb.one {
+        width: 220px;
+        height: 220px;
+        right: 8%;
+        top: 8%;
+        background: radial-gradient(circle at center, rgba(109,124,255,0.8), rgba(109,124,255,0.08) 70%, transparent 100%);
+      }
+
+      .orb.two {
+        width: 180px;
+        height: 180px;
+        left: 8%;
+        bottom: 9%;
+        animation-delay: 1s;
+        background: radial-gradient(circle at center, rgba(184,92,255,0.7), rgba(184,92,255,0.08) 70%, transparent 100%);
+      }
+
+      .profile-card {
+        position: relative;
+        width: min(100%, 410px);
+        padding: 1.5rem;
+        border: 1px solid rgba(163, 173, 255, 0.22);
+        border-radius: 24px;
+        background: rgba(12, 15, 30, 0.62);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 35px rgba(109,124,255,0.18), inset 0 0 0 1px rgba(255,255,255,0.04);
+        animation: pulseGlow 4s ease-in-out infinite;
+      }
+
+      [data-theme="light"] .profile-card {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .profile-card::before {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        pointer-events: none;
+      }
+
+      .profile-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+      }
+
+      .profile-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 999px;
+        background: rgba(103, 232, 165, 0.12);
+        border: 1px solid rgba(103, 232, 165, 0.28);
+        color: #d8ffe9;
+        font-weight: 700;
+        padding: 0.35rem 0.8rem;
+        font-size: 0.8rem;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 12px rgba(103,232,165,0.9);
+      }
+
+      .profile-image-wrap {
+        height: 210px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        position: relative;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: linear-gradient(135deg, #23636b, #202640 55%, #895c8b);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+      }
+
+      .profile-image-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 35% 0 0;
+        background: linear-gradient(transparent, rgba(5,8,22,0.36));
+        pointer-events: none;
+      }
+
+      .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 38%;
+        transition: transform 0.6s ease;
+      }
+
+      .profile-image-wrap:hover .profile-image {
+        transform: scale(1.04);
+      }
+
+      .profile-name {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin: 0.25rem 0 0.3rem;
+        color: var(--heading);
+      }
+
+      .profile-role {
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+      }
+
+      .mini-badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+      }
+
+      .mini-badge {
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(159,168,255,0.2);
+        font-size: 0.72rem;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-top: 1.2rem;
+      }
+
+      .metric {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(159,168,255,0.14);
+        border-radius: 12px;
+        text-align: center;
+        padding: 0.7rem 0.4rem;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.1rem;
+        color: #fff;
+        margin-bottom: 0.15rem;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .section {
+        position: relative;
+        z-index: 1;
+        margin-top: 2rem;
+      }
+
+      .section-header {
+        margin-bottom: 1.2rem;
+      }
+
+      .section-header h2 {
+        margin: 0 0 0.4rem;
+        font-size: clamp(1.8rem, 2vw, 2.4rem);
+        letter-spacing: -0.04em;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .about {
+        margin-bottom: 1.5rem;
+      }
+
+      .about p {
+        margin: 0;
+        font-size: 1.06rem;
+        line-height: 1.9;
+        background: rgba(26, 30, 52, 0.52);
+        padding: 1.5rem 1.4rem;
+        border-radius: 18px;
+        border: 1px solid rgba(159,168,255,0.16);
+        box-shadow: 0 0 22px rgba(109,124,255,0.08);
+        color: var(--text);
+      }
+
+      .skills {
+        margin-top: 2rem;
+      }
+
+      .skills-grid {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin: 1.2rem 0 0;
+      }
+
+      .skills li {
+        margin: 0;
+        padding: 0.8rem 1rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--text);
+        background: linear-gradient(180deg, rgba(75,79,138,0.9), rgba(55,60,101,0.9));
+        border: 1px solid rgba(255,255,255,0.08);
+        transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 0 16px rgba(109,124,255,0.08);
+      }
+
+      .skills li:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 0 24px rgba(109,124,255,0.22);
+      }
+
+      .skill-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.7rem;
+      }
+
+      .skill-row {
+        display: grid;
+        grid-template-columns: 180px 1fr 60px;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(159,168,255,0.14);
+        border-radius: 14px;
+        padding: 0.8rem 1rem;
+      }
+
+      .skill-row span {
+        font-weight: 700;
+        color: var(--heading);
+      }
+
+      .progress-bar {
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.07);
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .progress-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 0 18px rgba(109,124,255,0.24);
+      }
+
+      .skill-row strong {
+        text-align: right;
+        color: var(--heading);
+        font-size: 0.9rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(159,168,255,0.14);
+        border-radius: 18px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 0 18px rgba(109,124,255,0.08);
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+        background: linear-gradient(90deg, #fff, #d3dcff 30%, #93d8ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .stat-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .github-panel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        align-items: stretch;
+        margin-top: 1.2rem;
+      }
+
+      .github-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 0.8rem;
+        box-shadow: 0 0 18px rgba(109,124,255,0.08);
+        overflow: hidden;
+        min-width: 0;
+      }
+
+      .github-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+      }
+
+      .github-live-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .github-activity-state {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .activity-dot {
+        width: 9px;
+        height: 9px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: #9aa3b5;
+      }
+
+      .github-activity-state.is-active .activity-dot {
+        background: var(--success);
+        box-shadow: 0 0 10px rgba(103,232,165,0.7);
+      }
+
+      .recent-repos {
+        display: grid;
+        gap: 0.75rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .recent-repos li + li {
+        padding-top: 0.7rem;
+        border-top: 1px solid rgba(159,168,255,0.14);
+      }
+
+      .recent-repos a {
+        color: var(--heading);
+        font-weight: 800;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+      }
+
+      .recent-repos a:hover,
+      .recent-repos a:focus-visible {
+        color: var(--accent-3);
+      }
+
+      .recent-repos span {
+        display: block;
+        margin-top: 0.2rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        line-height: 1.5;
+      }
+
+      .github-all-repos {
+        margin-top: auto;
+        padding-top: 0.5rem;
+        color: var(--accent-3);
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .github-all-repos:hover,
+      .github-all-repos:focus-visible {
+        text-decoration: underline;
+      }
+
+      .project-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 1.1rem 0 0.2rem;
+      }
+
+      .filter-btn {
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.03);
+        color: var(--heading);
+        border-radius: 999px;
+        padding: 0.53rem 0.9rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.25s ease;
+      }
+
+      .filter-btn.active,
+      .filter-btn:hover,
+      .filter-btn:focus-visible {
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        border-color: transparent;
+        box-shadow: 0 0 18px rgba(109,124,255,0.2);
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+        gap: 1.15rem;
+        margin-top: 1.5rem;
+      }
+
+      .project-card {
+        background: linear-gradient(155deg, rgba(23,31,48,0.94), rgba(12,17,31,0.92));
+        border: 1px solid rgba(159,168,255,0.2);
+        border-radius: 16px;
+        padding: 1rem;
+        box-shadow: 0 16px 42px rgba(0,0,0,0.24), inset 0 1px rgba(255,255,255,0.04);
+        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        min-height: 360px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card.hidden {
+        display: none;
+      }
+
+      .project-cover {
+        height: 160px;
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background-color: #183d48;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(93,222,205,0.42), transparent 50%),
+          linear-gradient(135deg, #15343b, #172435 65%, #31364d);
+        background-size: 24px 24px, 24px 24px, auto, auto;
+      }
+
+      .project-cover::after {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        right: 10%;
+        bottom: -95px;
+        z-index: -1;
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 50%;
+        box-shadow: 0 0 0 18px rgba(255,255,255,0.035), 0 0 0 38px rgba(255,255,255,0.025);
+      }
+
+      .project-cover[data-art="rover"] {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(96, 220, 185, 0.4), transparent 50%),
+          linear-gradient(135deg, #1a2d3d, #16273d 62%, #26395d);
+      }
+
+      .project-cover[data-art="food"] {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(255, 176, 92, 0.4), transparent 50%),
+          linear-gradient(135deg, #422d2f, #1e2c3f 62%, #313d5a);
+      }
+
+      .project-cover[data-art="tasks"] {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(184, 92, 255, 0.38), transparent 50%),
+          linear-gradient(135deg, #2b1f3d, #1b243b 62%, #36384e);
+      }
+
+      .project-cover[data-art="vision"] {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(102, 207, 255, 0.48), transparent 50%),
+          linear-gradient(135deg, #103645, #13273b 62%, #243747);
+      }
+
+      .project-cover[data-art="automation"] {
+        background-image:
+          linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+          radial-gradient(ellipse at 76% 34%, rgba(118, 222, 153, 0.5), transparent 50%),
+          linear-gradient(135deg, #173a34, #172d3d 62%, #2d3c4f);
+      }
+
+      .cover-index,
+      .cover-caption {
+        color: rgba(245,249,255,0.84);
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+      }
+
+      .cover-symbol {
+        align-self: center;
+        color: rgba(255,255,255,0.92);
+        font-size: 3.2rem;
+        filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+        transform: translateY(2px);
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(109,124,255,0.8), rgba(184,92,255,0.8), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.45s ease;
+      }
+
+      .project-card:hover::before {
+        transform: translateX(0);
+      }
+
+      .project-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(160, 166, 255, 0.8);
+        box-shadow: 0 22px 48px rgba(0,0,0,0.34), 0 0 28px rgba(109,124,255,0.14);
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .project-card h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        color: var(--heading);
+      }
+
+      .project-tag {
+        font-size: 0.72rem;
+        padding: 0.28rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(109,124,255,0.12);
+        border: 1px solid rgba(159,168,255,0.18);
+        color: #edf0ff;
+        white-space: nowrap;
+      }
+
+      .project-card p {
+        margin: 0;
+        font-size: 0.93rem;
+        color: var(--project-text);
+        line-height: 1.7;
+        flex: 1;
+      }
+
+      .project-meta {
+        border-top: 1px solid rgba(159,168,255,0.14);
+        padding-top: 0.65rem;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .tech-pill {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: #edf0ff;
+        border-radius: 999px;
+        padding: 0.24rem 0.55rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .project-card a {
+        color: #dfe7ff;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .project-card a:hover,
+      .project-card a:focus-visible {
+        color: #fff;
+        text-decoration: underline;
+      }
+
+      .project-list {
+        text-align: left;
+        max-width: 820px;
+        margin: 1.4rem auto 0;
+        background: rgba(26, 28, 53, 0.6);
+        border: 1px solid rgba(112, 122, 255, 0.35);
+        border-radius: 14px;
+        padding: 1rem 1.1rem;
+        box-shadow: 0 0 20px rgba(110, 116, 255, 0.2);
+      }
+
+      .contact-box {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1.2rem;
+        align-items: center;
+        margin-top: 2rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(159,168,255,0.18);
+        border-radius: 20px;
+        padding: 1.2rem;
+      }
+
+      .contact-box h3 {
+        margin: 0 0 0.5rem;
+        font-size: clamp(1.4rem, 2vw, 2rem);
+      }
+
+      .contact-box p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .contact-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: flex-end;
+      }
+
+      .contact-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(159,168,255,0.2);
+        color: var(--heading);
+        text-decoration: none;
+      }
+
+      .contact-links a:hover,
+      .contact-links a:focus-visible {
+        background: rgba(109,124,255,0.12);
+        border-color: rgba(159,168,255,0.4);
+      }
+
+      footer {
+        padding: 1.2rem 1.5rem 1.5rem;
+        color: var(--muted);
+        text-align: center;
+        border-top: 1px solid var(--line);
+        background: rgba(12,15,30,0.22);
+      }
+
+      [data-theme="light"] footer {
+        background: rgba(255,255,255,0.08);
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent-3);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .contact-box {
+          grid-template-columns: 1fr;
         }
-      });
-      requestAnimationFrame(animateParticles);
-    }
 
-    window.addEventListener('mousemove', createParticles);
-    window.addEventListener('resize', resizeCanvas);
-    animateParticles();
-
-    const spotlight = document.getElementById('spotlight');
-    document.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      spotlight.style.background = `radial-gradient(
-        circle at ${x}px ${y}px,
-        rgba(110, 116, 255, 0.3) 0%,
-        rgba(155, 120, 255, 0.15) 25%,
-        transparent 60%
-      )`;
-    });
-
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-
-    const githubUsername = 'theopintheo';
-    const githubRepoCount = document.getElementById('githubRepoCount');
-    const recentReposList = document.getElementById('recentRepos');
-    const githubActivityState = document.getElementById('githubActivityState');
-    const githubActivityText = document.getElementById('githubActivityText');
-
-    function formatTimeSince(date) {
-      const elapsedSeconds = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
-      if (elapsedSeconds < 60) return 'just now';
-      const units = [
-        ['year', 31536000],
-        ['month', 2592000],
-        ['day', 86400],
-        ['hour', 3600],
-        ['minute', 60]
-      ];
-      const [unit, seconds] = units.find(([, value]) => elapsedSeconds >= value);
-      const count = Math.floor(elapsedSeconds / seconds);
-      return `${count} ${unit}${count === 1 ? '' : 's'} ago`;
-    }
-
-    function renderRecentRepositories(repositories) {
-      recentReposList.replaceChildren();
-      repositories.slice(0, 3).forEach((repository) => {
-        const item = document.createElement('li');
-        const link = document.createElement('a');
-        const details = document.createElement('span');
-        const pushedAt = new Date(repository.pushed_at);
-
-        link.href = repository.html_url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = repository.name;
-        details.textContent = `${repository.language || 'Repository'} · Updated ${formatTimeSince(pushedAt)}`;
-        item.append(link, details);
-        recentReposList.append(item);
-      });
-    }
-
-    async function updateGitHubActivity() {
-      try {
-        const [profileResponse, repositoriesResponse] = await Promise.all([
-          fetch(`https://api.github.com/users/${githubUsername}`),
-          fetch(`https://api.github.com/users/${githubUsername}/repos?sort=pushed&direction=desc&per_page=100&type=owner`)
-        ]);
-
-        if (!profileResponse.ok || !repositoriesResponse.ok) {
-          throw new Error('GitHub API request failed');
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(120px, 1fr));
         }
 
-        const [profile, repositories] = await Promise.all([
-          profileResponse.json(),
-          repositoriesResponse.json()
-        ]);
-        const recentRepositories = repositories
-          .filter((repository) => !repository.fork && !repository.archived && repository.pushed_at)
-          .sort((first, second) => new Date(second.pushed_at) - new Date(first.pushed_at));
+        .github-panel {
+          grid-template-columns: 1fr;
+        }
 
-        githubRepoCount.textContent = profile.public_repos.toLocaleString();
-        if (recentRepositories.length) {
-          renderRecentRepositories(recentRepositories);
-          const latestPush = new Date(recentRepositories[0].pushed_at);
-          const isActiveThisWeek = Date.now() - latestPush.getTime() < 7 * 24 * 60 * 60 * 1000;
-          githubActivityState.classList.toggle('is-active', isActiveThisWeek);
-          githubActivityText.textContent = `Latest public push ${formatTimeSince(latestPush)}${isActiveThisWeek ? ' · Active this week' : ''}`;
+        .contact-links {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 1rem;
+        }
+
+        .top-bar {
+          padding: 0.75rem 1rem;
+        }
+
+        .content {
+          padding: 1rem 1rem 1.5rem;
+        }
+
+        .stats-row {
+          grid-template-columns: 1fr;
+        }
+
+        .skill-row {
+          grid-template-columns: 1fr;
+          gap: 0.7rem;
+        }
+
+        .skill-row strong {
+          text-align: left;
+        }
+
+        .project-filters {
+          gap: 0.45rem;
+        }
+
+        .filter-btn {
+          flex: 1 1 calc(50% - 0.5rem);
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .top-bar {
+          flex-wrap: wrap;
+        }
+
+        .top-nav {
+          order: 2;
+          width: 100%;
+        }
+
+        .theme-toggle {
+          order: 3;
+          width: 100%;
+          justify-content: center;
+        }
+
+        .hero-sub {
+          font-size: 1rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div id="spotlight" aria-hidden="true"></div>
+
+    <div class="container">
+      <header class="top-bar" aria-label="Main navigation">
+        <nav class="top-nav" aria-label="Primary navigation">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <i class="fa-solid fa-moon"></i>
+          <span>Dark</span>
+        </button>
+      </header>
+
+      <main id="main-content" class="content">
+        <section class="hero" id="home" aria-labelledby="main-title">
+          <div class="hero-copy">
+            <div class="eyebrow"><i class="fa-solid fa-rocket"></i> Full-stack & robotics</div>
+            <h1 id="main-title">
+              Building <span class="headline-accent">smart systems</span>
+              with code, hardware, and curiosity.
+            </h1>
+
+            <p class="hero-sub">
+              I’m Theo, a full-stack developer and robotics enthusiast creating performant digital products,
+              embedded experiences, and creative engineering solutions that connect software with real-world impact.
+            </p>
+
+            <div class="hero-actions">
+              <a class="primary-btn" href="#projects"><i class="fa-solid fa-arrow-down"></i> View projects</a>
+              <a class="secondary-btn" href="#contact"><i class="fa-solid fa-envelope"></i> Contact me</a>
+            </div>
+
+            <div class="focus-areas" aria-label="Focus areas">
+              <span class="focus-chip">Web apps</span>
+              <span class="focus-chip">Embedded systems</span>
+              <span class="focus-chip">AI workflows</span>
+              <span class="focus-chip">Product design</span>
+            </div>
+
+            <div class="stats-row" aria-label="Key metrics">
+              <div class="stat-box">
+                <strong>5+</strong>
+                <span>Years</span>
+              </div>
+              <div class="stat-box">
+                <strong>12</strong>
+                <span>Projects</span>
+              </div>
+              <div class="stat-box">
+                <strong>∞</strong>
+                <span>Ideas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="Profile summary">
+            <div class="orb one" aria-hidden="true"></div>
+            <div class="orb two" aria-hidden="true"></div>
+
+            <div class="profile-card">
+              <div class="profile-top">
+                <span class="profile-status"><span class="status-dot"></span> Available</span>
+              </div>
+
+              <div class="profile-image-wrap">
+                <img
+                  class="profile-image"
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80"
+                  alt="Portrait of Theo"
+                />
+              </div>
+
+              <h2 class="profile-name">Theo B.</h2>
+              <p class="profile-role">Full-Stack Developer • Robotics Engineer</p>
+
+              <div class="mini-badges" aria-label="Core skills badges">
+                <span class="mini-badge">React</span>
+                <span class="mini-badge">Node.js</span>
+                <span class="mini-badge">Python</span>
+                <span class="mini-badge">ROS</span>
+              </div>
+
+              <div class="metrics" aria-label="Highlights">
+                <div class="metric">
+                  <strong>6</strong>
+                  <span>Clients</span>
+                </div>
+                <div class="metric">
+                  <strong>24k</strong>
+                  <span>Lines</span>
+                </div>
+                <div class="metric">
+                  <strong>99%</strong>
+                  <span>Curious</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" class="section about" aria-labelledby="about-heading">
+          <header class="section-header">
+            <h2 id="about-heading">About me</h2>
+          </header>
+
+          <p>
+            I build products that combine modern frontend engineering, robust backend systems, and embedded thinking.
+            My work sits at the intersection of software architecture, real-time interfaces, and mechatronic problem solving,
+            allowing me to turn complex ideas into clear, scalable experiences.
+          </p>
+        </section>
+
+        <section id="skills" class="section skills" aria-labelledby="skills-heading">
+          <header class="section-header">
+            <h2 id="skills-heading">Skills</h2>
+            <p>Designing systems that are useful, responsive, and built to last.</p>
+          </header>
+
+          <ul class="skills-grid" aria-label="Technology stack">
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>React</li>
+            <li>Next.js</li>
+            <li>Node.js</li>
+            <li>Python</li>
+            <li>ROS</li>
+            <li>Embedded C</li>
+            <li>WebSockets</li>
+            <li>MongoDB</li>
+            <li>PostgreSQL</li>
+            <li>UI/UX</li>
+          </ul>
+
+          <div class="skill-list" aria-label="Skill levels">
+            <div class="skill-row">
+              <span>Frontend</span>
+              <div class="progress-bar" aria-hidden="true"><div class="progress-fill" style="width: 92%"></div></div>
+              <strong>92%</strong>
+            </div>
+            <div class="skill-row">
+              <span>Backend</span>
+              <div class="progress-bar" aria-hidden="true"><div class="progress-fill" style="width: 88%"></div></div>
+              <strong>88%</strong>
+            </div>
+            <div class="skill-row">
+              <span>Robotics</span>
+              <div class="progress-bar" aria-hidden="true"><div class="progress-fill" style="width: 80%"></div></div>
+              <strong>80%</strong>
+            </div>
+            <div class="skill-row">
+              <span>Systems</span>
+              <div class="progress-bar" aria-hidden="true"><div class="progress-fill" style="width: 86%"></div></div>
+              <strong>86%</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="impact-heading">
+          <header class="section-header">
+            <h2 id="impact-heading">Impact</h2>
+          </header>
+
+          <div class="stats-grid" aria-label="Achievements">
+            <div class="stat-card">
+              <strong>8</strong>
+              <span>Launches</span>
+            </div>
+            <div class="stat-card">
+              <strong>42%</strong>
+              <span>Faster</span>
+            </div>
+            <div class="stat-card">
+              <strong>16</strong>
+              <span>Team wins</span>
+            </div>
+            <div class="stat-card">
+              <strong>4.9/5</strong>
+              <span>Feedback</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="github-heading">
+          <header class="section-header">
+            <h2 id="github-heading">GitHub activity</h2>
+          </header>
+
+          <div class="github-panel">
+            <article class="github-card github-live-card">
+              <div class="github-activity-state is-active">
+                <span class="activity-dot"></span>
+                Currently building</div>
+              <div>
+                <strong>Recent focus:</strong>
+                <p>Automation tooling, robotics interfaces, and product dashboards.</p>
+              </div>
+            </article>
+
+            <article class="github-card">
+              <h3>Top repos</h3>
+              <ul class="recent-repos">
+                <li>
+                  <a href="https://github.com/theopintheo/portfolio" target="_blank" rel="noreferrer">portfolio</a>
+                  <span>Personal site and creative portfolio showcase.</span>
+                </li>
+                <li>
+                  <a href="https://github.com/theopintheo" target="_blank" rel="noreferrer">project-lab</a>
+                  <span>Prototype experiments and robotics exploration.</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="github-card">
+              <h3>Profile</h3>
+              <p>Open to product engineering, robotics systems, and collaborative problem-solving work.</p>
+              <a class="github-all-repos" href="https://github.com/theopintheo" target="_blank" rel="noreferrer">Explore all repos</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="projects" class="section" aria-labelledby="projects-heading">
+          <header class="section-header">
+            <h2 id="projects-heading">Projects</h2>
+            <p>Selected work across product, automation, and intelligent systems.</p>
+          </header>
+
+          <div class="project-filters" aria-label="Project filters">
+            <button class="filter-btn active" type="button" data-filter="all">All</button>
+            <button class="filter-btn" type="button" data-filter="web">Web</button>
+            <button class="filter-btn" type="button" data-filter="robotics">Robotics</button>
+            <button class="filter-btn" type="button" data-filter="automation">Automation</button>
+          </div>
+
+          <div class="project-grid">
+            <article class="project-card" data-category="web robotics">
+              <div class="project-cover" data-art="rover">
+                <span class="cover-index">01</span>
+                <div class="cover-symbol"><i class="fa-solid fa-robot"></i></div>
+                <span class="cover-caption">Autonomous Rover</span>
+              </div>
+              <div class="project-header">
+                <h3>Autonomous Rover</h3>
+                <span class="project-tag">Robotics</span>
+              </div>
+              <p>Built a rover stack for navigation, control logic, and sensor-driven decision making.</p>
+              <div class="tech-stack">
+                <span class="tech-pill">ROS</span>
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">C++</span>
+              </div>
+              <div class="project-meta">Autonomous navigation</div>
+            </article>
+
+            <article class="project-card" data-category="web">
+              <div class="project-cover" data-art="food">
+                <span class="cover-index">02</span>
+                <div class="cover-symbol"><i class="fa-solid fa-utensils"></i></div>
+                <span class="cover-caption">Food Finder</span>
+              </div>
+              <div class="project-header">
+                <h3>Food Finder</h3>
+                <span class="project-tag">Web</span>
+              </div>
+              <p>Designed a discovery-driven ordering interface focused on fast decision-making and clean UX.</p>
+              <div class="tech-stack">
+                <span class="tech-pill">React</span>
+                <span class="tech-pill">Node</span>
+                <span class="tech-pill">API</span>
+              </div>
+              <div class="project-meta">User experience</div>
+            </article>
+
+            <article class="project-card" data-category="automation web">
+              <div class="project-cover" data-art="tasks">
+                <span class="cover-index">03</span>
+                <div class="cover-symbol"><i class="fa-solid fa-list-check"></i></div>
+                <span class="cover-caption">Task Matrix</span>
+              </div>
+              <div class="project-header">
+                <h3>Task Matrix</h3>
+                <span class="project-tag">Automation</span>
+              </div>
+              <p>Created a dashboard for workflow automation, prioritization, and operational visibility.</p>
+              <div class="tech-stack">
+                <span class="tech-pill">Next.js</span>
+                <span class="tech-pill">MongoDB</span>
+                <span class="tech-pill">UI</span>
+              </div>
+              <div class="project-meta">Operational workflow</div>
+            </article>
+
+            <article class="project-card" data-category="robotics automation">
+              <div class="project-cover" data-art="vision">
+                <span class="cover-index">04</span>
+                <div class="cover-symbol"><i class="fa-solid fa-camera"></i></div>
+                <span class="cover-caption">Vision System</span>
+              </div>
+              <div class="project-header">
+                <h3>Vision System</h3>
+                <span class="project-tag">AI</span>
+              </div>
+              <p>Implemented computer vision processing for object detection and tracking in real-time environments.</p>
+              <div class="tech-stack">
+                <span class="tech-pill">OpenCV</span>
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">ML</span>
+              </div>
+              <div class="project-meta">Computer vision</div>
+            </article>
+
+            <article class="project-card" data-category="web automation">
+              <div class="project-cover" data-art="automation">
+                <span class="cover-index">05</span>
+                <div class="cover-symbol"><i class="fa-solid fa-gear"></i></div>
+                <span class="cover-caption">Ops Console</span>
+              </div>
+              <div class="project-header">
+                <h3>Ops Console</h3>
+                <span class="project-tag">Ops</span>
+              </div>
+              <p>Built a real-time command center for monitoring status, queues, and operational throughput.</p>
+              <div class="tech-stack">
+                <span class="tech-pill">JavaScript</span>
+                <span class="tech-pill">WebSockets</span>
+                <span class="tech-pill">Charts</span>
+              </div>
+              <div class="project-meta">Monitoring dashboard</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" class="section" aria-labelledby="contact-heading">
+          <div class="contact-box">
+            <div>
+              <h3 id="contact-heading">Let’s build something meaningful.</h3>
+              <p>
+                I’m available for product development, robotics experimentation, and technical partnerships that turn ambitious ideas into tangible systems.
+              </p>
+            </div>
+
+            <div class="contact-links" aria-label="Contact links">
+              <a href="mailto:theo@example.com" aria-label="Email Theo"><i class="fa-solid fa-envelope"></i></a>
+              <a href="https://github.com/theopintheo" target="_blank" rel="noreferrer" aria-label="GitHub profile"><i class="fa-brands fa-github"></i></a>
+              <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn profile"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        © 2026 Theo B. — Built with a passion for systems, design, and experimentation.
+      </footer>
+    </div>
+
+    <script>
+      const root = document.documentElement;
+      const themeToggle = document.querySelector('.theme-toggle');
+      const themeLabel = themeToggle.querySelector('span');
+      const themeIcon = themeToggle.querySelector('i');
+
+      const preferredTheme = localStorage.getItem('portfolio-theme') || 'dark';
+      applyTheme(preferredTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+      });
+
+      function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('portfolio-theme', theme);
+
+        if (theme === 'dark') {
+          themeLabel.textContent = 'Dark';
+          themeIcon.className = 'fa-solid fa-moon';
         } else {
-          githubActivityText.textContent = 'No recent public repository activity';
-          recentReposList.replaceChildren();
+          themeLabel.textContent = 'Light';
+          themeIcon.className = 'fa-solid fa-sun';
         }
-      } catch (error) {
-        githubActivityText.textContent = 'Live GitHub data is temporarily unavailable';
-        recentReposList.replaceChildren();
-        githubRepoCount.textContent = '--';
       }
-    }
 
-    updateGitHubActivity();
-    setInterval(updateGitHubActivity, 15 * 60 * 1000);
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
 
-    const contactForm = document.querySelector('.contact-form form');
-    const securityWarning = document.getElementById('securityWarning');
-    let allowFormSubmit = false;
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const filter = button.dataset.filter;
 
-    contactForm.addEventListener('submit', (event) => {
-      if (allowFormSubmit) {
-        allowFormSubmit = false;
-        return;
-      }
-      event.preventDefault();
-      securityWarning.showModal();
-    });
+          filterButtons.forEach((btn) => btn.classList.toggle('active', btn === button));
 
-    document.getElementById('warningSend').addEventListener('click', () => {
-      allowFormSubmit = true;
-      securityWarning.close();
-      contactForm.requestSubmit();
-    });
-
-    document.getElementById('warningBack').addEventListener('click', () => {
-      securityWarning.close();
-      contactForm.querySelector('textarea').focus();
-    });
-
-    filterButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-        filterButtons.forEach((btn) => btn.classList.toggle('active', btn === button));
-        projectCards.forEach((card) => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.display = match ? 'flex' : 'none';
+          projectCards.forEach((card) => {
+            const category = card.dataset.category || '';
+            const matches = filter === 'all' || category.includes(filter);
+            card.classList.toggle('hidden', !matches);
+          });
         });
       });
-    });
 
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('visible', window.scrollY > 300);
-    });
+      const spotlight = document.getElementById('spotlight');
+      document.addEventListener('pointermove', (event) => {
+        if (!spotlight) return;
+        spotlight.style.background = `radial-gradient(circle at ${event.clientX}px ${event.clientY}px, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 18%, transparent 55%)`;
+      });
 
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    gsap.from('.eyebrow', { duration: 0.8, y: -12, opacity: 0, ease: 'power2.out' });
-    gsap.from('h1', { duration: 1.1, y: 20, opacity: 0, ease: 'power3.out' });
-    gsap.from('.hero-sub', { duration: 0.9, y: 18, opacity: 0, delay: 0.15, ease: 'power2.out' });
-    gsap.from('.hero-actions a', { duration: 0.7, y: 16, opacity: 0, stagger: 0.08, delay: 0.3, ease: 'back.out(1.3)' });
-    gsap.from('.focus-chip', { duration: 0.6, y: 12, opacity: 0, stagger: 0.05, delay: 0.42, ease: 'power2.out' });
-    gsap.from('.stat-box', { duration: 0.7, y: 18, opacity: 0, stagger: 0.1, delay: 0.45, ease: 'power2.out' });
-    gsap.from('.profile-card', { duration: 1, x: 22, opacity: 0, delay: 0.35, ease: 'power3.out' });
-    gsap.from('.nav-link', { duration: 0.8, y: -10, opacity: 0, stagger: 0.08, delay: 0.2, ease: 'power2.out' });
-    gsap.from('.section-header, .about p, .skill-row, .project-card, .contact-button, .contact-form', { duration: 0.8, y: 20, opacity: 0, stagger: 0.08, delay: 0.6, ease: 'power2.out' });
-  </script>
-</body>
+      if (window.gsap) {
+        gsap.from('.hero-copy > *', { y: 28, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power2.out' });
+        gsap.from('.profile-card', { x: 30, opacity: 0, duration: 0.9, delay: 0.15, ease: 'power2.out' });
+      }
+    </script>
+  </body>
 </html>
